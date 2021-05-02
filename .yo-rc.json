@@ -11,7 +11,7 @@
     "skipCheckLengthOfIdentifier": false,
     "skipFakeData": false,
     "jhiPrefix": "jhi",
-    "entitySuffix": "",
+    "entitySuffix": "Entity",
     "dtoSuffix": "DTO",
     "testFrameworks": ["cypress"],
     "pages": [],
