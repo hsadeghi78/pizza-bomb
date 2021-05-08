@@ -2,9 +2,9 @@
   "bombApp": {
     "criticism": {
       "home": {
-        "title": "Criticisms",
+        "title": "پیشنهادات و انقادات",
         "refreshListLabel": "Refresh list",
-        "createLabel": "Create a new Criticism",
+        "createLabel": "ثبت پیشنهادات و انتقادات",
         "createOrEditLabel": "Create or edit a Criticism",
         "notFound": "No Criticisms found"
       },
@@ -15,13 +15,13 @@
         "question": "Are you sure you want to delete Criticism {{ id }}?"
       },
       "detail": {
-        "title": "Criticism"
+        "title": "پیشنهاد یا انتقاد"
       },
       "id": "ID",
-      "fullName": "Full Name",
-      "email": "Email",
-      "contactNumber": "Contact Number",
-      "description": "Description",
+      "fullName": "نام و نام خانوادگی",
+      "email": "آدرس ایمیل",
+      "contactNumber": "شماره تماس",
+      "description": "توضیحات",
       "party": "Party"
     }
   }
