@@ -42,6 +42,42 @@
           </span>
         </a>
         <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="entity-menu">
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="party"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              (click)="collapseNavbar()"
+            >
+              <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+              <span jhiTranslate="global.menu.entities.party">Party</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="branch"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              (click)="collapseNavbar()"
+            >
+              <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+              <span jhiTranslate="global.menu.entities.branch">Branch</span>
+            </a>
+          </li>
+          <li>
+            <a
+              class="dropdown-item"
+              routerLink="criticism"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              (click)="collapseNavbar()"
+            >
+              <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+              <span jhiTranslate="global.menu.entities.criticism">Criticism</span>
+            </a>
+          </li>
           <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
         </ul>
       </li>
@@ -99,6 +135,39 @@
           <!-- jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here -->
         </ul>
       </li>
+
+      <li
+        ngbDropdown
+        class="nav-item dropdown pointer"
+        display="dynamic"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="services-menu" data-cy="servicesMenu">
+          <span>
+            <fa-icon icon="home"></fa-icon>
+            <span>همه چی مون</span>
+          </span>
+        </a>
+        <ul class="dropdown-menu" ngbDropdownMenu aria-labelledby="account-menu">
+          <li>
+            <a class="dropdown-item" routerLink="about-us" routerLinkActive="active" (click)="collapseNavbar()" data-cy="settings">
+              <span jhiTranslate="global.menu.public.about-us">about</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="contact-us" routerLinkActive="active" (click)="collapseNavbar()" data-cy="settings">
+              <span jhiTranslate="global.menu.public.contact-us">contact-us</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="criticisms" routerLinkActive="active" (click)="collapseNavbar()" data-cy="settings">
+              <span jhiTranslate="global.menu.public.criticisms">criticisms</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
       <li ngbDropdown class="nav-item dropdown pointer" display="dynamic" *ngIf="languages && languages.length > 1">
         <a class="nav-link dropdown-toggle" ngbDropdownToggle href="javascript:void(0);" id="languagesnavBarDropdown">
           <span>

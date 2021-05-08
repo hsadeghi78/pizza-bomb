@@ -48,6 +48,11 @@ public class CacheConfiguration {
             createCache(cm, com.barad.bomb.domain.User.class.getName());
             createCache(cm, com.barad.bomb.domain.Authority.class.getName());
             createCache(cm, com.barad.bomb.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.barad.bomb.domain.PartyEntity.class.getName());
+            createCache(cm, com.barad.bomb.domain.PartyEntity.class.getName() + ".branchs");
+            createCache(cm, com.barad.bomb.domain.PartyEntity.class.getName() + ".criticisms");
+            createCache(cm, com.barad.bomb.domain.BranchEntity.class.getName());
+            createCache(cm, com.barad.bomb.domain.CriticismEntity.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

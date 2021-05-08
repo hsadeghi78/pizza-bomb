@@ -4,3 +4,44 @@
 * https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss can be overwritten here
 * Make sure not to add !default to values here
 */
+@font-face {
+  font-family: 'IRANSans';
+  src: url('../../content/fonts/IRANSans-Medium.woff2') format('woff2'), url('../../content/fonts/IRANSans-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'ocs-paginator';
+  src: url('../../content/fonts/roboto-light-webfont.woff2') format('woff2'),
+    url('../../content/fonts/roboto-light-webfont.woff') format('woff');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IRANSansUltraLight';
+  src: url('../../content/fonts/IRANSans-UltraLight.woff2') format('woff2'),
+    url('../../content/fonts/IRANSans-UltraLight.woff') format('woff');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IRANSansLight';
+  src: url('../../content/fonts/IRANSans-Light.woff2') format('woff2'), url('../../content/fonts/IRANSans-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IRANSansBold';
+  src: url('../../content/fonts/IRANSans-Bold.woff2') format('woff2'), url('../../content/fonts/IRANSans-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}

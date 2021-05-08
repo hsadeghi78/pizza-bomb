@@ -1,0 +1,34 @@
+{
+  "bombApp": {
+    "branch": {
+      "home": {
+        "title": "Branches",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Branch",
+        "createOrEditLabel": "Create or edit a Branch",
+        "notFound": "No Branches found"
+      },
+      "created": "A new Branch is created with identifier {{ param }}",
+      "updated": "A Branch is updated with identifier {{ param }}",
+      "deleted": "A Branch is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Branch {{ id }}?"
+      },
+      "detail": {
+        "title": "Branch"
+      },
+      "id": "ID",
+      "title": "Title",
+      "branchCode": "Branch Code",
+      "tradeTitle": "Trade Title",
+      "activationDate": "Activation Date",
+      "expirationDate": "Expiration Date",
+      "activationStatus": "Activation Status",
+      "lat": "Lat",
+      "address": "Address",
+      "postalCode": "Postal Code",
+      "description": "Description",
+      "party": "Party"
+    }
+  }
+}

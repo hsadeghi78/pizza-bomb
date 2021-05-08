@@ -1,0 +1,74 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="branch">
+      <h2 data-cy="branchDetailsHeading"><span jhiTranslate="bombApp.branch.detail.title">Branch</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ branch.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.branch.title">Title</span></dt>
+        <dd>
+          <span>{{ branch.title }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.branch.branchCode">Branch Code</span></dt>
+        <dd>
+          <span>{{ branch.branchCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.branch.tradeTitle">Trade Title</span></dt>
+        <dd>
+          <span>{{ branch.tradeTitle }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.branch.activationDate">Activation Date</span></dt>
+        <dd>
+          <span>{{ branch.activationDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.branch.expirationDate">Expiration Date</span></dt>
+        <dd>
+          <span>{{ branch.expirationDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.branch.activationStatus">Activation Status</span></dt>
+        <dd>
+          <span>{{ branch.activationStatus }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.branch.lat">Lat</span></dt>
+        <dd>
+          <span>{{ branch.lat }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.branch.address">Address</span></dt>
+        <dd>
+          <span>{{ branch.address }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.branch.postalCode">Postal Code</span></dt>
+        <dd>
+          <span>{{ branch.postalCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.branch.description">Description</span></dt>
+        <dd>
+          <span>{{ branch.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.branch.party">Party</span></dt>
+        <dd>
+          <div *ngIf="branch.party">
+            <a [routerLink]="['/party', branch.party?.id, 'view']">{{ branch.party?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/branch', branch.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

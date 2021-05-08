@@ -1,0 +1,55 @@
+
+/** 4 field fixed **/
+entity Party {
+    title String required maxlength(200),
+    partyCode String required maxlength(100) unique,
+    tradeTitle String required maxlength(200) unique,
+    activationDate LocalDate required,
+    expirationDate LocalDate ,
+    activationStatus Boolean required,
+    description String  maxlength(3000)
+}
+
+/** 4 field fixed **/
+entity Branch {
+    title String required maxlength(200),
+    branchCode String required maxlength(100) unique,
+    tradeTitle String required maxlength(200) unique,
+    activationDate LocalDate required,
+    expirationDate LocalDate ,
+    activationStatus Boolean required,
+    lat Double required,
+    lat Double required
+    address String required maxlength(3000),
+    postalCode String required maxlength(12),
+    description String maxlength(3000)
+}
+
+/** 4 field fixed **/
+entity Criticism {
+	fullName String required maxlength(150),
+    email String maxlength(150)
+    contactNumber String maxlength(15),
+    description String required maxlength(3000)
+}
+
+relationship OneToMany {
+    Party{branchs} to Branch{party required}
+    Party{criticisms} to Criticism{party}
+}
+
+
+// Set pagination options
+paginate all with infinite-scroll
+paginate all with pagination
+
+// Use Data Transfert Objects (DTO)
+// dto * with mapstruct
+dto * with mapstruct
+
+// Set service options to all except few
+service * with serviceImpl
+
+// Set an angular suffix
+// angularSuffix * with mySuffix
+filter all

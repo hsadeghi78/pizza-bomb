@@ -1,0 +1,50 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="criticism">
+      <h2 data-cy="criticismDetailsHeading"><span jhiTranslate="bombApp.criticism.detail.title">Criticism</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ criticism.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.criticism.fullName">Full Name</span></dt>
+        <dd>
+          <span>{{ criticism.fullName }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.criticism.email">Email</span></dt>
+        <dd>
+          <span>{{ criticism.email }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.criticism.contactNumber">Contact Number</span></dt>
+        <dd>
+          <span>{{ criticism.contactNumber }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.criticism.description">Description</span></dt>
+        <dd>
+          <span>{{ criticism.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.criticism.party">Party</span></dt>
+        <dd>
+          <div *ngIf="criticism.party">
+            <a [routerLink]="['/party', criticism.party?.id, 'view']">{{ criticism.party?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/criticism', criticism.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>
