@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
+import { NgImageSliderComponent } from 'ng-image-slider';
 
 @Component({
   selector: 'jhi-home',
@@ -11,8 +12,25 @@ import { Account } from 'app/core/auth/account.model';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  @ViewChild('nav', { static: false })
+  slider?: NgImageSliderComponent;
+
   account: Account | null = null;
   authSubscription?: Subscription;
+  imageObject = [
+    {
+      image: '../../content/images/slider.jpg',
+      thumbImage: '../../content/images/slider.jpg',
+    },
+    {
+      image: '../../content/images/slider2.jpg',
+      thumbImage: '../../content/images/slider2.jpg',
+    },
+    {
+      image: '../../content/images/slider01.jpg',
+      thumbImage: '../../content/images/slider01.jpg',
+    },
+  ];
 
   constructor(private accountService: AccountService, private router: Router) {}
 
@@ -32,5 +50,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.authSubscription) {
       this.authSubscription.unsubscribe();
     }
+  }
+
+  prevImageClick(): void {
+    this.slider?.prev();
+  }
+
+  nextImageClick(): void {
+    this.slider?.next();
   }
 }

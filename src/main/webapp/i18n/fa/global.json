@@ -37,7 +37,8 @@
       "public": {
         "contact-us": "ارتباط با ما",
         "about-us": "درباره ما",
-        "criticisms": "انتقادات و پیشنهادات"
+        "criticisms": "انتقادات و پیشنهادات",
+        "news": "اخبار"
       }
     },
     "form": {
@@ -144,5 +145,5 @@
       "not.image": "File was expected to be an image but was found to be \"{{ fileType }}\""
     }
   },
-  "footer": "این پاورقی است"
+  "footer": "کلیه حقوق مادی . معنوی این سایت مربوط به فست فود بمب می باشد."
 }

@@ -1,2 +1,21 @@
-<p>contact-us works!</p>
-<div style="height: 600px" leaflet [leafletOptions]="options" [leafletLayersControl]="layersControl"></div>
+<div class="row justify-content-center">
+  <div class="col-3">
+    <h1>فست فود بمب</h1>
+    <p>تلفن: 031-226232323</p>
+    <p>فاکس: 031-226232323</p>
+    <p>آدرس : خیابان ابوالحسن اصفهانی، روبروی خیابان شهدای خواجو، فست فود بمب</p>
+    <p>تلفن همراه (پاسخگویی همه روزه ساعت 19 الی 21) : 09130202941</p>
+    <p>پذیرش نمایندگی در سراسر ایران : 09130202941</p>
+    <p>ساعات کار همه روزه : 00:00 تا 02:00 - 18:00 تا 24:00</p>
+  </div>
+
+  <div class="col-8">
+    <div
+      style="height: 600px"
+      leaflet
+      [leafletOptions]="options"
+      (leafletMapReady)="onMapReady($event)"
+      [leafletLayersControl]="layersControl"
+    ></div>
+  </div>
+</div>

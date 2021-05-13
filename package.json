@@ -92,6 +92,7 @@
     "bootswatch": "4.6.0",
     "dayjs": "1.10.4",
     "leaflet": "^1.7.1",
+    "ng-image-slider": "^2.8.0",
     "ngx-infinite-scroll": "10.0.1",
     "ngx-webstorage": "7.0.1",
     "rxjs": "6.6.7",

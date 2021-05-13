@@ -1,4 +1,4 @@
-import { NgModule, LOCALE_ID } from '@angular/core';
+import { NgModule, LOCALE_ID, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import locale from '@angular/common/locales/fa';
@@ -31,6 +31,7 @@ import { ActiveMenuDirective } from './layouts/navbar/active-menu.directive';
 import { ErrorComponent } from './layouts/error/error.component';
 import { PublicModule } from 'app/public/public.module';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { NgImageSliderModule } from 'ng-image-slider';
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
     SharedModule,
     HomeModule,
     PublicModule,
+    NgImageSliderModule,
     LeafletModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
     EntityRoutingModule,
@@ -67,6 +69,7 @@ import { LeafletModule } from '@asymmetrik/ngx-leaflet';
   ],
   declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
   bootstrap: [MainComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppModule {
   constructor(
