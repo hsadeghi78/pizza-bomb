@@ -30,6 +30,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       image: '../../content/images/slider01.jpg',
       thumbImage: '../../content/images/slider01.jpg',
     },
+    {
+      image: '../../content/images/slider3.jpg',
+      thumbImage: '../../content/images/slider3.jpg',
+    },
   ];
 
   constructor(private accountService: AccountService, private router: Router) {}
