@@ -1,0 +1,26 @@
+* {
+  box-sizing: border-box;
+}
+.slider {
+  display: flex;
+  background: #000;
+  .slide {
+    height: 100vh;
+    position: relative;
+    z-index: 10;
+    border: solid #fff;
+    border-width: 1px;
+    background-size: cover;
+    background-position: center center;
+    opacity: 0.25;
+    width: 30%;
+    //flex-grow:1;
+    // transition:flex-grow 0.8s ease, opacity 0.5s ease;
+    transition: width 0.8s ease, opacity 0.5s ease;
+    &:hover {
+      // flex-grow:10;
+      width: 800%;
+      opacity: 1;
+    }
+  }
+}
