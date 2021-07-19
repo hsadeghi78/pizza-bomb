@@ -1,0 +1,237 @@
+
+enum ContactType {
+	TELEPHONE, MOBILE, FAX, EMAIL, PAGER
+}
+
+enum FactorStatus{
+	INITIATE,
+    PRINTED,
+    FINAL,
+    KITCHEN,
+    READY,
+    DELIVERY_SUCCESS,
+    DELIVERY_FAIL,
+    CANCEL,
+    DELETED
+}
+
+enum FactorOrderWay{
+	PHONE_CALL, IN_PERSON
+}
+
+enum FactorServing{
+	INSIDE, OUTSIDE
+}
+
+enum PartyInfoType{
+  WORK_TIME, PRIVATE, PUBLIC, WORKSPACE, TRANSFER, TAX, DISCOUNT, OTHER
+}
+
+/** 4 field fixed **/
+entity Address {
+    title String required maxlength(200),
+    lat Double required,
+    lon Double required,
+    street1 String maxlength(200),
+    street2 String maxlength(200),
+    address String required maxlength(1000),
+    postalCode String required maxlength(12)
+}
+
+/** 4 field fixed **/
+entity Contact {
+    title String required maxlength(200),
+    contactType ContactType required,
+    contactValue String required maxlength(200)
+}
+
+/** 4 field fixed **/
+entity Partner {
+    title String required maxlength(200),
+    partnerCode String required maxlength(100) unique,
+    tradeTitle String required maxlength(200)
+    economicCode String maxlength(100) unique,
+    activityDate LocalDate,
+}
+
+/** 4 field fixed **/
+entity Person {
+    fisrtName String required maxlength(200),
+    lastName String required maxlength(200),
+    birthDate LocalDate,
+    nationalCode String required maxlength(10) unique
+}
+
+/** 4 field fixed **/
+entity Party {
+    title String required maxlength(200),
+    photo ImageBlob,
+    partyCode String required maxlength(100) unique,
+    tradeTitle String required maxlength(200),
+    activationDate LocalDate required,
+    expirationDate LocalDate ,
+    activationStatus Boolean required,
+    lat Double required,
+    lon Double required,
+    address String required maxlength(3000),
+    postalCode String required maxlength(12),
+    mobile String required maxlength(15),
+    partyTypeClassId Long required /** for flatOgranization, Horizontal Organization, Legal person, Individual Person*/,
+    description String  maxlength(3000)
+}
+
+/** 4 field fixed **/
+entity PartyInformation {
+    infoType PartyInfoType required,
+    infoTitle String maxlength(200) required ,
+    infoDesc String maxlength(2000)
+}
+
+/** 4 field fixed **/
+entity Comment {
+	rating Integer,
+    description String maxlength(3000)
+}
+
+entity ClassType{
+	title String required maxlength(200),
+    typeCode Integer required unique,
+    description String  maxlength(300)
+}
+
+entity Classification{
+	title String required maxlength(200),
+    classCode Integer required unique,
+    description String  maxlength(300)
+}
+
+/** 4 field fixed sample:PIZZA, SANDWICH, SNACK, BURGER, SOKHARI**/
+entity FoodType{
+	title String required maxlength(200),
+    typeCode String required maxlength(50) unique,
+    description String  maxlength(3000)
+}
+
+/** 4 field fixed **/
+entity Food {
+    title String required maxlength(200),
+    foodCode String required maxlength(100) unique,
+    sizeClassId Long,
+    photo ImageBlob,
+    categoryClassId Long /**  for Appetizer, Main Course, Desert, Drink*/,
+    lastPrice Double required,
+    description String  maxlength(3000)
+}
+
+/** 4 field fixed **/
+entity Factor {
+    title String required maxlength(200),
+    factorCode String required maxlength(100) unique,
+    lastStatus FactorStatus required,
+    orderWay FactorOrderWay required,
+    serving FactorServing required,
+    paymentStateClassId Long required /** for FREE, UNPAID, PREPAID_PARTIAL, PREPAID_COMPLETE, POSTPAID, SETTELMENT */,
+    categoryClassId Long /**  for * */,
+    totalPrice Double required,
+    discount Double ,
+    tax Double ,
+    netprice Double required,
+    description String  maxlength(1000)
+}
+
+/** 4 field fixed **/
+entity FactorItem {
+	rowNum Integer required,
+    title String required maxlength(200),
+    count Integer required,
+    discount Double ,
+    tax Double ,
+    description String  maxlength(300)
+}
+
+/** 4 field fixed **/
+entity MenuItem {
+    title String required maxlength(200),
+    expirationDate Instant required,
+    description String  maxlength(1000)
+}
+
+/** 4 field fixed **/
+entity PriceHistory {
+    foodId Long,
+    materialId Long,
+    price Double required
+}
+
+/** 4 field fixed **/
+entity FactorStatusHistory {
+    factorId Long required,
+    status FactorStatus required
+}
+
+/** 4 field fixed **/
+entity ConsumeMaterial {
+	title String required maxlength(200),
+    type String maxlength(100),
+    amount Double required,
+    amountUnitClassId Long required /** noe vahed andazegiri */
+}
+
+/** 4 field fixed **/
+entity Criticism {
+	fullName String required maxlength(150),
+    email String maxlength(150)
+    contactNumber String maxlength(15),
+    description String required maxlength(3000)
+}
+
+/** 4 field fixed **/
+entity FileDocument {
+	fileName String required maxlength(250),
+    fileContent AnyBlob ,
+    filePath String maxlength(2000),
+    description String required maxlength(3000)
+}
+
+relationship OneToMany {
+    Party{criticisms} to Criticism{party},
+    Party{files} to FileDocument{party required},
+    Party{moreInfo} to PartyInformation{party required},
+    Party{writedComments} to Comment{writerParty required},
+    Party{audienceComments} to Comment{audienceParty required},
+    Comment{children} to Comment{parent},
+    Party{foodTypes} to FoodType{party required},
+    Party{children} to Party{parent},
+    Party{contacts} to Contact{party required},
+    Party{addresses} to Address{party required},
+    Party{menuItems} to MenuItem{party required},
+    Party{produceFoods} to Food{producerParty required},
+    Party{designedFoods} to Food{designerParty},
+    Food{menuItems} to MenuItem{food required},
+    Party{buyerFactors} to Factor{buyerParty required},
+    Party{sellerFactors} to Factor{sellerParty required},
+    Food{factorItems} to FactorItem{food required},
+    Factor{factorItems} to FactorItem{factor required},
+    FoodType{foods} to Food{foodType required},
+    Food{materials} to ConsumeMaterial{food required},
+    ClassType{classifications} to Classification{classType required},
+    Partner{parties} to Party{partner},
+    Person{parties} to Party{person},
+    Address{factors} to Factor{deliveryAddress}
+}
+
+
+// Set pagination options
+paginate all with infinite-scroll
+paginate all with pagination
+
+// Use Data Transfert Objects (DTO)
+// dto * with mapstruct
+dto * with mapstruct
+
+// Set service options to all except few
+service * with serviceImpl
+
+// Set an angular suffix
+// angularSuffix * with mySuffix
+filter all

@@ -1,0 +1,130 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-comment-heading" data-cy="CommentCreateUpdateHeading" jhiTranslate="bombApp.comment.home.createOrEditLabel">
+        Create or edit a Comment
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.comment.rating" for="field_rating">Rating</label>
+          <input type="number" class="form-control" name="rating" id="field_rating" data-cy="rating" formControlName="rating" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.comment.description" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+          <div *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('description')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 3000 }"
+            >
+              This field cannot be longer than 3000 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.comment.writerParty" for="field_writerParty">Writer Party</label>
+          <select class="form-control" id="field_writerParty" data-cy="writerParty" name="writerParty" formControlName="writerParty">
+            <option *ngIf="!editForm.get('writerParty')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="partyOption.id === editForm.get('writerParty')!.value?.id ? editForm.get('writerParty')!.value : partyOption"
+              *ngFor="let partyOption of partiesSharedCollection; trackBy: trackPartyById"
+            >
+              {{ partyOption.id }}
+            </option>
+          </select>
+        </div>
+        <div
+          *ngIf="editForm.get(['writerParty'])!.invalid && (editForm.get(['writerParty'])!.dirty || editForm.get(['writerParty'])!.touched)"
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['writerParty'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.comment.audienceParty" for="field_audienceParty">Audience Party</label>
+          <select
+            class="form-control"
+            id="field_audienceParty"
+            data-cy="audienceParty"
+            name="audienceParty"
+            formControlName="audienceParty"
+          >
+            <option *ngIf="!editForm.get('audienceParty')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="partyOption.id === editForm.get('audienceParty')!.value?.id ? editForm.get('audienceParty')!.value : partyOption"
+              *ngFor="let partyOption of partiesSharedCollection; trackBy: trackPartyById"
+            >
+              {{ partyOption.id }}
+            </option>
+          </select>
+        </div>
+        <div
+          *ngIf="
+            editForm.get(['audienceParty'])!.invalid && (editForm.get(['audienceParty'])!.dirty || editForm.get(['audienceParty'])!.touched)
+          "
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['audienceParty'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.comment.parent" for="field_parent">Parent</label>
+          <select class="form-control" id="field_parent" data-cy="parent" name="parent" formControlName="parent">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="commentOption.id === editForm.get('parent')!.value?.id ? editForm.get('parent')!.value : commentOption"
+              *ngFor="let commentOption of commentsSharedCollection; trackBy: trackCommentById"
+            >
+              {{ commentOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

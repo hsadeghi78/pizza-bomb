@@ -1,0 +1,17 @@
+export enum PartyInfoType {
+  WORK_TIME = 'WORK_TIME',
+
+  PRIVATE = 'PRIVATE',
+
+  PUBLIC = 'PUBLIC',
+
+  WORKSPACE = 'WORKSPACE',
+
+  TRANSFER = 'TRANSFER',
+
+  TAX = 'TAX',
+
+  DISCOUNT = 'DISCOUNT',
+
+  OTHER = 'OTHER',
+}

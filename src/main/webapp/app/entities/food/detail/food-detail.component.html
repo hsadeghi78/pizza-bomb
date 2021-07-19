@@ -1,0 +1,83 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="food">
+      <h2 data-cy="foodDetailsHeading"><span jhiTranslate="bombApp.food.detail.title">Food</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ food.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.food.title">Title</span></dt>
+        <dd>
+          <span>{{ food.title }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.food.foodCode">Food Code</span></dt>
+        <dd>
+          <span>{{ food.foodCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.food.sizeClassId">Size Class Id</span></dt>
+        <dd>
+          <span>{{ food.sizeClassId }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.food.photo">Photo</span></dt>
+        <dd>
+          <div *ngIf="food.photo">
+            <a (click)="openFile(food.photo, food.photoContentType)">
+              <img [src]="'data:' + food.photoContentType + ';base64,' + food.photo" style="max-width: 100%" alt="food image" />
+            </a>
+            {{ food.photoContentType }}, {{ byteSize(food.photo) }}
+          </div>
+        </dd>
+        <dt>
+          <span jhiTranslate="bombApp.food.categoryClassId" [ngbTooltip]="'bombApp.food.help.categoryClassId' | translate"
+            >Category Class Id</span
+          >
+        </dt>
+        <dd>
+          <span>{{ food.categoryClassId }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.food.lastPrice">Last Price</span></dt>
+        <dd>
+          <span>{{ food.lastPrice }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.food.description">Description</span></dt>
+        <dd>
+          <span>{{ food.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.food.producerParty">Producer Party</span></dt>
+        <dd>
+          <div *ngIf="food.producerParty">
+            <a [routerLink]="['/party', food.producerParty?.id, 'view']">{{ food.producerParty?.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="bombApp.food.designerParty">Designer Party</span></dt>
+        <dd>
+          <div *ngIf="food.designerParty">
+            <a [routerLink]="['/party', food.designerParty?.id, 'view']">{{ food.designerParty?.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="bombApp.food.foodType">Food Type</span></dt>
+        <dd>
+          <div *ngIf="food.foodType">
+            <a [routerLink]="['/food-type', food.foodType?.id, 'view']">{{ food.foodType?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/food', food.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

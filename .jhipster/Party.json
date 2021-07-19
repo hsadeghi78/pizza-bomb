@@ -8,6 +8,11 @@
       "fieldValidateRulesMaxlength": "200"
     },
     {
+      "fieldName": "photo",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "image"
+    },
+    {
       "fieldName": "partyCode",
       "fieldType": "String",
       "fieldValidateRules": ["required", "maxlength", "unique"],
@@ -16,7 +21,7 @@
     {
       "fieldName": "tradeTitle",
       "fieldType": "String",
-      "fieldValidateRules": ["required", "maxlength", "unique"],
+      "fieldValidateRules": ["required", "maxlength"],
       "fieldValidateRulesMaxlength": "200"
     },
     {
@@ -34,6 +39,40 @@
       "fieldValidateRules": ["required"]
     },
     {
+      "fieldName": "lat",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "lon",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "3000"
+    },
+    {
+      "fieldName": "postalCode",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "12"
+    },
+    {
+      "fieldName": "mobile",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "15"
+    },
+    {
+      "fieldName": "partyTypeClassId",
+      "fieldType": "Long",
+      "javadoc": "for flatOgranization, Horizontal Organization, Legal person, Individual Person",
+      "fieldValidateRules": ["required"]
+    },
+    {
       "fieldName": "description",
       "fieldType": "String",
       "fieldValidateRules": ["maxlength"],
@@ -43,15 +82,105 @@
   "relationships": [
     {
       "relationshipType": "one-to-many",
-      "otherEntityName": "branch",
-      "otherEntityRelationshipName": "party",
-      "relationshipName": "branchs"
-    },
-    {
-      "relationshipType": "one-to-many",
       "otherEntityName": "criticism",
       "otherEntityRelationshipName": "party",
       "relationshipName": "criticisms"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "fileDocument",
+      "otherEntityRelationshipName": "party",
+      "relationshipName": "files"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "partyInformation",
+      "otherEntityRelationshipName": "party",
+      "relationshipName": "moreInfo"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "comment",
+      "otherEntityRelationshipName": "writerParty",
+      "relationshipName": "writedComments"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "comment",
+      "otherEntityRelationshipName": "audienceParty",
+      "relationshipName": "audienceComments"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "foodType",
+      "otherEntityRelationshipName": "party",
+      "relationshipName": "foodTypes"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "party",
+      "otherEntityRelationshipName": "parent",
+      "relationshipName": "children"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "contact",
+      "otherEntityRelationshipName": "party",
+      "relationshipName": "contacts"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "address",
+      "otherEntityRelationshipName": "party",
+      "relationshipName": "addresses"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "menuItem",
+      "otherEntityRelationshipName": "party",
+      "relationshipName": "menuItems"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "food",
+      "otherEntityRelationshipName": "producerParty",
+      "relationshipName": "produceFoods"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "food",
+      "otherEntityRelationshipName": "designerParty",
+      "relationshipName": "designedFoods"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "factor",
+      "otherEntityRelationshipName": "buyerParty",
+      "relationshipName": "buyerFactors"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "factor",
+      "otherEntityRelationshipName": "sellerParty",
+      "relationshipName": "sellerFactors"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "party",
+      "otherEntityRelationshipName": "children",
+      "relationshipName": "parent"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "partner",
+      "otherEntityRelationshipName": "parties",
+      "relationshipName": "partner"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "person",
+      "otherEntityRelationshipName": "parties",
+      "relationshipName": "person"
     }
   ],
   "javadoc": "4 field fixed",

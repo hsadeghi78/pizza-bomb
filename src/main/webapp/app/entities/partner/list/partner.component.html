@@ -1,0 +1,112 @@
+<div>
+  <h2 id="page-heading" data-cy="PartnerHeading">
+    <span jhiTranslate="bombApp.partner.home.title">Partners</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info mr-2" (click)="loadPage()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span jhiTranslate="bombApp.partner.home.refreshListLabel">Refresh List</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-partner"
+        [routerLink]="['/partner/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span jhiTranslate="bombApp.partner.home.createLabel"> Create a new Partner </span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="partners?.length === 0">
+    <span jhiTranslate="bombApp.partner.home.notFound">No partners found</span>
+  </div>
+
+  <div class="table-responsive" id="entities" *ngIf="partners && partners.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+          <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="title"><span jhiTranslate="bombApp.partner.title">Title</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="partnerCode">
+            <span jhiTranslate="bombApp.partner.partnerCode">Partner Code</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="tradeTitle">
+            <span jhiTranslate="bombApp.partner.tradeTitle">Trade Title</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="economicCode">
+            <span jhiTranslate="bombApp.partner.economicCode">Economic Code</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="activityDate">
+            <span jhiTranslate="bombApp.partner.activityDate">Activity Date</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let partner of partners; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/partner', partner.id, 'view']">{{ partner.id }}</a>
+          </td>
+          <td>{{ partner.title }}</td>
+          <td>{{ partner.partnerCode }}</td>
+          <td>{{ partner.tradeTitle }}</td>
+          <td>{{ partner.economicCode }}</td>
+          <td>{{ partner.activityDate | formatMediumDate }}</td>
+          <td class="text-right">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/partner', partner.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/partner', partner.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+              </button>
+
+              <button type="submit" (click)="delete(partner)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="partners && partners.length > 0">
+    <div class="row justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+    </div>
+
+    <div class="row justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [(page)]="ngbPaginationPage"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="loadPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</div>

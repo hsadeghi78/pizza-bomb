@@ -1,0 +1,351 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-factor-heading" data-cy="FactorCreateUpdateHeading" jhiTranslate="bombApp.factor.home.createOrEditLabel">
+        Create or edit a Factor
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.factor.title" for="field_title">Title</label>
+          <input type="text" class="form-control" name="title" id="field_title" data-cy="title" formControlName="title" />
+          <div *ngIf="editForm.get('title')!.invalid && (editForm.get('title')!.dirty || editForm.get('title')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('title')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('title')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 200 }"
+            >
+              This field cannot be longer than 200 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.factor.factorCode" for="field_factorCode">Factor Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="factorCode"
+            id="field_factorCode"
+            data-cy="factorCode"
+            formControlName="factorCode"
+          />
+          <div *ngIf="editForm.get('factorCode')!.invalid && (editForm.get('factorCode')!.dirty || editForm.get('factorCode')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('factorCode')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('factorCode')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 100 }"
+            >
+              This field cannot be longer than 100 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.factor.lastStatus" for="field_lastStatus">Last Status</label>
+          <select class="form-control" name="lastStatus" formControlName="lastStatus" id="field_lastStatus" data-cy="lastStatus">
+            <option [ngValue]="null">{{ 'bombApp.FactorStatus.null' | translate }}</option>
+            <option value="INITIATE">{{ 'bombApp.FactorStatus.INITIATE' | translate }}</option>
+            <option value="PRINTED">{{ 'bombApp.FactorStatus.PRINTED' | translate }}</option>
+            <option value="FINAL">{{ 'bombApp.FactorStatus.FINAL' | translate }}</option>
+            <option value="KITCHEN">{{ 'bombApp.FactorStatus.KITCHEN' | translate }}</option>
+            <option value="READY">{{ 'bombApp.FactorStatus.READY' | translate }}</option>
+            <option value="DELIVERY_SUCCESS">{{ 'bombApp.FactorStatus.DELIVERY_SUCCESS' | translate }}</option>
+            <option value="DELIVERY_FAIL">{{ 'bombApp.FactorStatus.DELIVERY_FAIL' | translate }}</option>
+            <option value="CANCEL">{{ 'bombApp.FactorStatus.CANCEL' | translate }}</option>
+            <option value="DELETED">{{ 'bombApp.FactorStatus.DELETED' | translate }}</option>
+          </select>
+          <div *ngIf="editForm.get('lastStatus')!.invalid && (editForm.get('lastStatus')!.dirty || editForm.get('lastStatus')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('lastStatus')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.factor.orderWay" for="field_orderWay">Order Way</label>
+          <select class="form-control" name="orderWay" formControlName="orderWay" id="field_orderWay" data-cy="orderWay">
+            <option [ngValue]="null">{{ 'bombApp.FactorOrderWay.null' | translate }}</option>
+            <option value="PHONE_CALL">{{ 'bombApp.FactorOrderWay.PHONE_CALL' | translate }}</option>
+            <option value="IN_PERSON">{{ 'bombApp.FactorOrderWay.IN_PERSON' | translate }}</option>
+          </select>
+          <div *ngIf="editForm.get('orderWay')!.invalid && (editForm.get('orderWay')!.dirty || editForm.get('orderWay')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('orderWay')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.factor.serving" for="field_serving">Serving</label>
+          <select class="form-control" name="serving" formControlName="serving" id="field_serving" data-cy="serving">
+            <option [ngValue]="null">{{ 'bombApp.FactorServing.null' | translate }}</option>
+            <option value="INSIDE">{{ 'bombApp.FactorServing.INSIDE' | translate }}</option>
+            <option value="OUTSIDE">{{ 'bombApp.FactorServing.OUTSIDE' | translate }}</option>
+          </select>
+          <div *ngIf="editForm.get('serving')!.invalid && (editForm.get('serving')!.dirty || editForm.get('serving')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('serving')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="bombApp.factor.paymentStateClassId"
+            for="field_paymentStateClassId"
+            [ngbTooltip]="'bombApp.factor.help.paymentStateClassId' | translate"
+            >Payment State Class Id</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="paymentStateClassId"
+            id="field_paymentStateClassId"
+            data-cy="paymentStateClassId"
+            formControlName="paymentStateClassId"
+          />
+          <div
+            *ngIf="
+              editForm.get('paymentStateClassId')!.invalid &&
+              (editForm.get('paymentStateClassId')!.dirty || editForm.get('paymentStateClassId')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('paymentStateClassId')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('paymentStateClassId')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="bombApp.factor.categoryClassId"
+            for="field_categoryClassId"
+            [ngbTooltip]="'bombApp.factor.help.categoryClassId' | translate"
+            >Category Class Id</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="categoryClassId"
+            id="field_categoryClassId"
+            data-cy="categoryClassId"
+            formControlName="categoryClassId"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.factor.totalPrice" for="field_totalPrice">Total Price</label>
+          <input
+            type="number"
+            class="form-control"
+            name="totalPrice"
+            id="field_totalPrice"
+            data-cy="totalPrice"
+            formControlName="totalPrice"
+          />
+          <div *ngIf="editForm.get('totalPrice')!.invalid && (editForm.get('totalPrice')!.dirty || editForm.get('totalPrice')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('totalPrice')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('totalPrice')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.factor.discount" for="field_discount">Discount</label>
+          <input type="number" class="form-control" name="discount" id="field_discount" data-cy="discount" formControlName="discount" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.factor.tax" for="field_tax">Tax</label>
+          <input type="number" class="form-control" name="tax" id="field_tax" data-cy="tax" formControlName="tax" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.factor.netprice" for="field_netprice">Netprice</label>
+          <input type="number" class="form-control" name="netprice" id="field_netprice" data-cy="netprice" formControlName="netprice" />
+          <div *ngIf="editForm.get('netprice')!.invalid && (editForm.get('netprice')!.dirty || editForm.get('netprice')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('netprice')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('netprice')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.factor.description" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+          <div *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('description')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 1000 }"
+            >
+              This field cannot be longer than 1000 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.factor.buyerParty" for="field_buyerParty">Buyer Party</label>
+          <select class="form-control" id="field_buyerParty" data-cy="buyerParty" name="buyerParty" formControlName="buyerParty">
+            <option *ngIf="!editForm.get('buyerParty')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="partyOption.id === editForm.get('buyerParty')!.value?.id ? editForm.get('buyerParty')!.value : partyOption"
+              *ngFor="let partyOption of partiesSharedCollection; trackBy: trackPartyById"
+            >
+              {{ partyOption.id }}
+            </option>
+          </select>
+        </div>
+        <div
+          *ngIf="editForm.get(['buyerParty'])!.invalid && (editForm.get(['buyerParty'])!.dirty || editForm.get(['buyerParty'])!.touched)"
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['buyerParty'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.factor.sellerParty" for="field_sellerParty">Seller Party</label>
+          <select class="form-control" id="field_sellerParty" data-cy="sellerParty" name="sellerParty" formControlName="sellerParty">
+            <option *ngIf="!editForm.get('sellerParty')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="partyOption.id === editForm.get('sellerParty')!.value?.id ? editForm.get('sellerParty')!.value : partyOption"
+              *ngFor="let partyOption of partiesSharedCollection; trackBy: trackPartyById"
+            >
+              {{ partyOption.id }}
+            </option>
+          </select>
+        </div>
+        <div
+          *ngIf="editForm.get(['sellerParty'])!.invalid && (editForm.get(['sellerParty'])!.dirty || editForm.get(['sellerParty'])!.touched)"
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['sellerParty'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.factor.deliveryAddress" for="field_deliveryAddress"
+            >Delivery Address</label
+          >
+          <select
+            class="form-control"
+            id="field_deliveryAddress"
+            data-cy="deliveryAddress"
+            name="deliveryAddress"
+            formControlName="deliveryAddress"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="
+                addressOption.id === editForm.get('deliveryAddress')!.value?.id ? editForm.get('deliveryAddress')!.value : addressOption
+              "
+              *ngFor="let addressOption of addressesSharedCollection; trackBy: trackAddressById"
+            >
+              {{ addressOption.id }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

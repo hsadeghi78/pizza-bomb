@@ -1,0 +1,19 @@
+export enum FactorStatus {
+  INITIATE = 'INITIATE',
+
+  PRINTED = 'PRINTED',
+
+  FINAL = 'FINAL',
+
+  KITCHEN = 'KITCHEN',
+
+  READY = 'READY',
+
+  DELIVERY_SUCCESS = 'DELIVERY_SUCCESS',
+
+  DELIVERY_FAIL = 'DELIVERY_FAIL',
+
+  CANCEL = 'CANCEL',
+
+  DELETED = 'DELETED',
+}

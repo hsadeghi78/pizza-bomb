@@ -1,0 +1,52 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="menuItem">
+      <h2 data-cy="menuItemDetailsHeading"><span jhiTranslate="bombApp.menuItem.detail.title">Menu Item</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ menuItem.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.menuItem.title">Title</span></dt>
+        <dd>
+          <span>{{ menuItem.title }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.menuItem.expirationDate">Expiration Date</span></dt>
+        <dd>
+          <span>{{ menuItem.expirationDate | formatMediumDatetime }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.menuItem.description">Description</span></dt>
+        <dd>
+          <span>{{ menuItem.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.menuItem.party">Party</span></dt>
+        <dd>
+          <div *ngIf="menuItem.party">
+            <a [routerLink]="['/party', menuItem.party?.id, 'view']">{{ menuItem.party?.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="bombApp.menuItem.food">Food</span></dt>
+        <dd>
+          <div *ngIf="menuItem.food">
+            <a [routerLink]="['/food', menuItem.food?.id, 'view']">{{ menuItem.food?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/menu-item', menuItem.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

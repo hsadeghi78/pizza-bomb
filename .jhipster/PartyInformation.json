@@ -1,0 +1,43 @@
+{
+  "name": "PartyInformation",
+  "fields": [
+    {
+      "fieldName": "infoType",
+      "fieldType": "PartyInfoType",
+      "fieldValues": "WORK_TIME,PRIVATE,PUBLIC,WORKSPACE,TRANSFER,TAX,DISCOUNT,OTHER",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "infoTitle",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength", "required"],
+      "fieldValidateRulesMaxlength": "200"
+    },
+    {
+      "fieldName": "infoDesc",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "2000"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "party",
+      "otherEntityRelationshipName": "moreInfo",
+      "relationshipValidateRules": "required",
+      "relationshipName": "party"
+    }
+  ],
+  "javadoc": "4 field fixed",
+  "entityTableName": "party_information",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210718092804"
+}

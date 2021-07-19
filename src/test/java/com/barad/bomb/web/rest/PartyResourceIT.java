@@ -6,9 +6,20 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.barad.bomb.IntegrationTest;
-import com.barad.bomb.domain.BranchEntity;
+import com.barad.bomb.domain.AddressEntity;
+import com.barad.bomb.domain.CommentEntity;
+import com.barad.bomb.domain.ContactEntity;
 import com.barad.bomb.domain.CriticismEntity;
+import com.barad.bomb.domain.FactorEntity;
+import com.barad.bomb.domain.FileDocumentEntity;
+import com.barad.bomb.domain.FoodEntity;
+import com.barad.bomb.domain.FoodTypeEntity;
+import com.barad.bomb.domain.MenuItemEntity;
+import com.barad.bomb.domain.PartnerEntity;
 import com.barad.bomb.domain.PartyEntity;
+import com.barad.bomb.domain.PartyEntity;
+import com.barad.bomb.domain.PartyInformationEntity;
+import com.barad.bomb.domain.PersonEntity;
 import com.barad.bomb.repository.PartyRepository;
 import com.barad.bomb.service.criteria.PartyCriteria;
 import com.barad.bomb.service.dto.PartyDTO;
@@ -27,6 +38,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 
 /**
  * Integration tests for the {@link PartyResource} REST controller.
@@ -38,6 +50,11 @@ class PartyResourceIT {
 
     private static final String DEFAULT_TITLE = "AAAAAAAAAA";
     private static final String UPDATED_TITLE = "BBBBBBBBBB";
+
+    private static final byte[] DEFAULT_PHOTO = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_PHOTO = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_PHOTO_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_PHOTO_CONTENT_TYPE = "image/png";
 
     private static final String DEFAULT_PARTY_CODE = "AAAAAAAAAA";
     private static final String UPDATED_PARTY_CODE = "BBBBBBBBBB";
@@ -55,6 +72,27 @@ class PartyResourceIT {
 
     private static final Boolean DEFAULT_ACTIVATION_STATUS = false;
     private static final Boolean UPDATED_ACTIVATION_STATUS = true;
+
+    private static final Double DEFAULT_LAT = 1D;
+    private static final Double UPDATED_LAT = 2D;
+    private static final Double SMALLER_LAT = 1D - 1D;
+
+    private static final Double DEFAULT_LON = 1D;
+    private static final Double UPDATED_LON = 2D;
+    private static final Double SMALLER_LON = 1D - 1D;
+
+    private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
+    private static final String UPDATED_ADDRESS = "BBBBBBBBBB";
+
+    private static final String DEFAULT_POSTAL_CODE = "AAAAAAAAAA";
+    private static final String UPDATED_POSTAL_CODE = "BBBBBBBBBB";
+
+    private static final String DEFAULT_MOBILE = "AAAAAAAAAA";
+    private static final String UPDATED_MOBILE = "BBBBBBBBBB";
+
+    private static final Long DEFAULT_PARTY_TYPE_CLASS_ID = 1L;
+    private static final Long UPDATED_PARTY_TYPE_CLASS_ID = 2L;
+    private static final Long SMALLER_PARTY_TYPE_CLASS_ID = 1L - 1L;
 
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
@@ -88,11 +126,19 @@ class PartyResourceIT {
     public static PartyEntity createEntity(EntityManager em) {
         PartyEntity partyEntity = new PartyEntity()
             .title(DEFAULT_TITLE)
+            .photo(DEFAULT_PHOTO)
+            .photoContentType(DEFAULT_PHOTO_CONTENT_TYPE)
             .partyCode(DEFAULT_PARTY_CODE)
             .tradeTitle(DEFAULT_TRADE_TITLE)
             .activationDate(DEFAULT_ACTIVATION_DATE)
             .expirationDate(DEFAULT_EXPIRATION_DATE)
             .activationStatus(DEFAULT_ACTIVATION_STATUS)
+            .lat(DEFAULT_LAT)
+            .lon(DEFAULT_LON)
+            .address(DEFAULT_ADDRESS)
+            .postalCode(DEFAULT_POSTAL_CODE)
+            .mobile(DEFAULT_MOBILE)
+            .partyTypeClassId(DEFAULT_PARTY_TYPE_CLASS_ID)
             .description(DEFAULT_DESCRIPTION);
         return partyEntity;
     }
@@ -106,11 +152,19 @@ class PartyResourceIT {
     public static PartyEntity createUpdatedEntity(EntityManager em) {
         PartyEntity partyEntity = new PartyEntity()
             .title(UPDATED_TITLE)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE)
             .partyCode(UPDATED_PARTY_CODE)
             .tradeTitle(UPDATED_TRADE_TITLE)
             .activationDate(UPDATED_ACTIVATION_DATE)
             .expirationDate(UPDATED_EXPIRATION_DATE)
             .activationStatus(UPDATED_ACTIVATION_STATUS)
+            .lat(UPDATED_LAT)
+            .lon(UPDATED_LON)
+            .address(UPDATED_ADDRESS)
+            .postalCode(UPDATED_POSTAL_CODE)
+            .mobile(UPDATED_MOBILE)
+            .partyTypeClassId(UPDATED_PARTY_TYPE_CLASS_ID)
             .description(UPDATED_DESCRIPTION);
         return partyEntity;
     }
@@ -135,11 +189,19 @@ class PartyResourceIT {
         assertThat(partyList).hasSize(databaseSizeBeforeCreate + 1);
         PartyEntity testParty = partyList.get(partyList.size() - 1);
         assertThat(testParty.getTitle()).isEqualTo(DEFAULT_TITLE);
+        assertThat(testParty.getPhoto()).isEqualTo(DEFAULT_PHOTO);
+        assertThat(testParty.getPhotoContentType()).isEqualTo(DEFAULT_PHOTO_CONTENT_TYPE);
         assertThat(testParty.getPartyCode()).isEqualTo(DEFAULT_PARTY_CODE);
         assertThat(testParty.getTradeTitle()).isEqualTo(DEFAULT_TRADE_TITLE);
         assertThat(testParty.getActivationDate()).isEqualTo(DEFAULT_ACTIVATION_DATE);
         assertThat(testParty.getExpirationDate()).isEqualTo(DEFAULT_EXPIRATION_DATE);
         assertThat(testParty.getActivationStatus()).isEqualTo(DEFAULT_ACTIVATION_STATUS);
+        assertThat(testParty.getLat()).isEqualTo(DEFAULT_LAT);
+        assertThat(testParty.getLon()).isEqualTo(DEFAULT_LON);
+        assertThat(testParty.getAddress()).isEqualTo(DEFAULT_ADDRESS);
+        assertThat(testParty.getPostalCode()).isEqualTo(DEFAULT_POSTAL_CODE);
+        assertThat(testParty.getMobile()).isEqualTo(DEFAULT_MOBILE);
+        assertThat(testParty.getPartyTypeClassId()).isEqualTo(DEFAULT_PARTY_TYPE_CLASS_ID);
         assertThat(testParty.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
     }
 
@@ -254,6 +316,114 @@ class PartyResourceIT {
 
     @Test
     @Transactional
+    void checkLatIsRequired() throws Exception {
+        int databaseSizeBeforeTest = partyRepository.findAll().size();
+        // set the field null
+        partyEntity.setLat(null);
+
+        // Create the Party, which fails.
+        PartyDTO partyDTO = partyMapper.toDto(partyEntity);
+
+        restPartyMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(partyDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<PartyEntity> partyList = partyRepository.findAll();
+        assertThat(partyList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkLonIsRequired() throws Exception {
+        int databaseSizeBeforeTest = partyRepository.findAll().size();
+        // set the field null
+        partyEntity.setLon(null);
+
+        // Create the Party, which fails.
+        PartyDTO partyDTO = partyMapper.toDto(partyEntity);
+
+        restPartyMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(partyDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<PartyEntity> partyList = partyRepository.findAll();
+        assertThat(partyList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkAddressIsRequired() throws Exception {
+        int databaseSizeBeforeTest = partyRepository.findAll().size();
+        // set the field null
+        partyEntity.setAddress(null);
+
+        // Create the Party, which fails.
+        PartyDTO partyDTO = partyMapper.toDto(partyEntity);
+
+        restPartyMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(partyDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<PartyEntity> partyList = partyRepository.findAll();
+        assertThat(partyList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkPostalCodeIsRequired() throws Exception {
+        int databaseSizeBeforeTest = partyRepository.findAll().size();
+        // set the field null
+        partyEntity.setPostalCode(null);
+
+        // Create the Party, which fails.
+        PartyDTO partyDTO = partyMapper.toDto(partyEntity);
+
+        restPartyMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(partyDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<PartyEntity> partyList = partyRepository.findAll();
+        assertThat(partyList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkMobileIsRequired() throws Exception {
+        int databaseSizeBeforeTest = partyRepository.findAll().size();
+        // set the field null
+        partyEntity.setMobile(null);
+
+        // Create the Party, which fails.
+        PartyDTO partyDTO = partyMapper.toDto(partyEntity);
+
+        restPartyMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(partyDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<PartyEntity> partyList = partyRepository.findAll();
+        assertThat(partyList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    void checkPartyTypeClassIdIsRequired() throws Exception {
+        int databaseSizeBeforeTest = partyRepository.findAll().size();
+        // set the field null
+        partyEntity.setPartyTypeClassId(null);
+
+        // Create the Party, which fails.
+        PartyDTO partyDTO = partyMapper.toDto(partyEntity);
+
+        restPartyMockMvc
+            .perform(post(ENTITY_API_URL).contentType(MediaType.APPLICATION_JSON).content(TestUtil.convertObjectToJsonBytes(partyDTO)))
+            .andExpect(status().isBadRequest());
+
+        List<PartyEntity> partyList = partyRepository.findAll();
+        assertThat(partyList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     void getAllParties() throws Exception {
         // Initialize the database
         partyRepository.saveAndFlush(partyEntity);
@@ -265,11 +435,19 @@ class PartyResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(partyEntity.getId().intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
+            .andExpect(jsonPath("$.[*].photoContentType").value(hasItem(DEFAULT_PHOTO_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))))
             .andExpect(jsonPath("$.[*].partyCode").value(hasItem(DEFAULT_PARTY_CODE)))
             .andExpect(jsonPath("$.[*].tradeTitle").value(hasItem(DEFAULT_TRADE_TITLE)))
             .andExpect(jsonPath("$.[*].activationDate").value(hasItem(DEFAULT_ACTIVATION_DATE.toString())))
             .andExpect(jsonPath("$.[*].expirationDate").value(hasItem(DEFAULT_EXPIRATION_DATE.toString())))
             .andExpect(jsonPath("$.[*].activationStatus").value(hasItem(DEFAULT_ACTIVATION_STATUS.booleanValue())))
+            .andExpect(jsonPath("$.[*].lat").value(hasItem(DEFAULT_LAT.doubleValue())))
+            .andExpect(jsonPath("$.[*].lon").value(hasItem(DEFAULT_LON.doubleValue())))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
+            .andExpect(jsonPath("$.[*].postalCode").value(hasItem(DEFAULT_POSTAL_CODE)))
+            .andExpect(jsonPath("$.[*].mobile").value(hasItem(DEFAULT_MOBILE)))
+            .andExpect(jsonPath("$.[*].partyTypeClassId").value(hasItem(DEFAULT_PARTY_TYPE_CLASS_ID.intValue())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
     }
 
@@ -286,11 +464,19 @@ class PartyResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(partyEntity.getId().intValue()))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
+            .andExpect(jsonPath("$.photoContentType").value(DEFAULT_PHOTO_CONTENT_TYPE))
+            .andExpect(jsonPath("$.photo").value(Base64Utils.encodeToString(DEFAULT_PHOTO)))
             .andExpect(jsonPath("$.partyCode").value(DEFAULT_PARTY_CODE))
             .andExpect(jsonPath("$.tradeTitle").value(DEFAULT_TRADE_TITLE))
             .andExpect(jsonPath("$.activationDate").value(DEFAULT_ACTIVATION_DATE.toString()))
             .andExpect(jsonPath("$.expirationDate").value(DEFAULT_EXPIRATION_DATE.toString()))
             .andExpect(jsonPath("$.activationStatus").value(DEFAULT_ACTIVATION_STATUS.booleanValue()))
+            .andExpect(jsonPath("$.lat").value(DEFAULT_LAT.doubleValue()))
+            .andExpect(jsonPath("$.lon").value(DEFAULT_LON.doubleValue()))
+            .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS))
+            .andExpect(jsonPath("$.postalCode").value(DEFAULT_POSTAL_CODE))
+            .andExpect(jsonPath("$.mobile").value(DEFAULT_MOBILE))
+            .andExpect(jsonPath("$.partyTypeClassId").value(DEFAULT_PARTY_TYPE_CLASS_ID.intValue()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
     }
 
@@ -808,6 +994,552 @@ class PartyResourceIT {
 
     @Test
     @Transactional
+    void getAllPartiesByLatIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where lat equals to DEFAULT_LAT
+        defaultPartyShouldBeFound("lat.equals=" + DEFAULT_LAT);
+
+        // Get all the partyList where lat equals to UPDATED_LAT
+        defaultPartyShouldNotBeFound("lat.equals=" + UPDATED_LAT);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByLatIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where lat not equals to DEFAULT_LAT
+        defaultPartyShouldNotBeFound("lat.notEquals=" + DEFAULT_LAT);
+
+        // Get all the partyList where lat not equals to UPDATED_LAT
+        defaultPartyShouldBeFound("lat.notEquals=" + UPDATED_LAT);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByLatIsInShouldWork() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where lat in DEFAULT_LAT or UPDATED_LAT
+        defaultPartyShouldBeFound("lat.in=" + DEFAULT_LAT + "," + UPDATED_LAT);
+
+        // Get all the partyList where lat equals to UPDATED_LAT
+        defaultPartyShouldNotBeFound("lat.in=" + UPDATED_LAT);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByLatIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where lat is not null
+        defaultPartyShouldBeFound("lat.specified=true");
+
+        // Get all the partyList where lat is null
+        defaultPartyShouldNotBeFound("lat.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByLatIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where lat is greater than or equal to DEFAULT_LAT
+        defaultPartyShouldBeFound("lat.greaterThanOrEqual=" + DEFAULT_LAT);
+
+        // Get all the partyList where lat is greater than or equal to UPDATED_LAT
+        defaultPartyShouldNotBeFound("lat.greaterThanOrEqual=" + UPDATED_LAT);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByLatIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where lat is less than or equal to DEFAULT_LAT
+        defaultPartyShouldBeFound("lat.lessThanOrEqual=" + DEFAULT_LAT);
+
+        // Get all the partyList where lat is less than or equal to SMALLER_LAT
+        defaultPartyShouldNotBeFound("lat.lessThanOrEqual=" + SMALLER_LAT);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByLatIsLessThanSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where lat is less than DEFAULT_LAT
+        defaultPartyShouldNotBeFound("lat.lessThan=" + DEFAULT_LAT);
+
+        // Get all the partyList where lat is less than UPDATED_LAT
+        defaultPartyShouldBeFound("lat.lessThan=" + UPDATED_LAT);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByLatIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where lat is greater than DEFAULT_LAT
+        defaultPartyShouldNotBeFound("lat.greaterThan=" + DEFAULT_LAT);
+
+        // Get all the partyList where lat is greater than SMALLER_LAT
+        defaultPartyShouldBeFound("lat.greaterThan=" + SMALLER_LAT);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByLonIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where lon equals to DEFAULT_LON
+        defaultPartyShouldBeFound("lon.equals=" + DEFAULT_LON);
+
+        // Get all the partyList where lon equals to UPDATED_LON
+        defaultPartyShouldNotBeFound("lon.equals=" + UPDATED_LON);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByLonIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where lon not equals to DEFAULT_LON
+        defaultPartyShouldNotBeFound("lon.notEquals=" + DEFAULT_LON);
+
+        // Get all the partyList where lon not equals to UPDATED_LON
+        defaultPartyShouldBeFound("lon.notEquals=" + UPDATED_LON);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByLonIsInShouldWork() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where lon in DEFAULT_LON or UPDATED_LON
+        defaultPartyShouldBeFound("lon.in=" + DEFAULT_LON + "," + UPDATED_LON);
+
+        // Get all the partyList where lon equals to UPDATED_LON
+        defaultPartyShouldNotBeFound("lon.in=" + UPDATED_LON);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByLonIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where lon is not null
+        defaultPartyShouldBeFound("lon.specified=true");
+
+        // Get all the partyList where lon is null
+        defaultPartyShouldNotBeFound("lon.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByLonIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where lon is greater than or equal to DEFAULT_LON
+        defaultPartyShouldBeFound("lon.greaterThanOrEqual=" + DEFAULT_LON);
+
+        // Get all the partyList where lon is greater than or equal to UPDATED_LON
+        defaultPartyShouldNotBeFound("lon.greaterThanOrEqual=" + UPDATED_LON);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByLonIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where lon is less than or equal to DEFAULT_LON
+        defaultPartyShouldBeFound("lon.lessThanOrEqual=" + DEFAULT_LON);
+
+        // Get all the partyList where lon is less than or equal to SMALLER_LON
+        defaultPartyShouldNotBeFound("lon.lessThanOrEqual=" + SMALLER_LON);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByLonIsLessThanSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where lon is less than DEFAULT_LON
+        defaultPartyShouldNotBeFound("lon.lessThan=" + DEFAULT_LON);
+
+        // Get all the partyList where lon is less than UPDATED_LON
+        defaultPartyShouldBeFound("lon.lessThan=" + UPDATED_LON);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByLonIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where lon is greater than DEFAULT_LON
+        defaultPartyShouldNotBeFound("lon.greaterThan=" + DEFAULT_LON);
+
+        // Get all the partyList where lon is greater than SMALLER_LON
+        defaultPartyShouldBeFound("lon.greaterThan=" + SMALLER_LON);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByAddressIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where address equals to DEFAULT_ADDRESS
+        defaultPartyShouldBeFound("address.equals=" + DEFAULT_ADDRESS);
+
+        // Get all the partyList where address equals to UPDATED_ADDRESS
+        defaultPartyShouldNotBeFound("address.equals=" + UPDATED_ADDRESS);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByAddressIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where address not equals to DEFAULT_ADDRESS
+        defaultPartyShouldNotBeFound("address.notEquals=" + DEFAULT_ADDRESS);
+
+        // Get all the partyList where address not equals to UPDATED_ADDRESS
+        defaultPartyShouldBeFound("address.notEquals=" + UPDATED_ADDRESS);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByAddressIsInShouldWork() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where address in DEFAULT_ADDRESS or UPDATED_ADDRESS
+        defaultPartyShouldBeFound("address.in=" + DEFAULT_ADDRESS + "," + UPDATED_ADDRESS);
+
+        // Get all the partyList where address equals to UPDATED_ADDRESS
+        defaultPartyShouldNotBeFound("address.in=" + UPDATED_ADDRESS);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByAddressIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where address is not null
+        defaultPartyShouldBeFound("address.specified=true");
+
+        // Get all the partyList where address is null
+        defaultPartyShouldNotBeFound("address.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByAddressContainsSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where address contains DEFAULT_ADDRESS
+        defaultPartyShouldBeFound("address.contains=" + DEFAULT_ADDRESS);
+
+        // Get all the partyList where address contains UPDATED_ADDRESS
+        defaultPartyShouldNotBeFound("address.contains=" + UPDATED_ADDRESS);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByAddressNotContainsSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where address does not contain DEFAULT_ADDRESS
+        defaultPartyShouldNotBeFound("address.doesNotContain=" + DEFAULT_ADDRESS);
+
+        // Get all the partyList where address does not contain UPDATED_ADDRESS
+        defaultPartyShouldBeFound("address.doesNotContain=" + UPDATED_ADDRESS);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByPostalCodeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where postalCode equals to DEFAULT_POSTAL_CODE
+        defaultPartyShouldBeFound("postalCode.equals=" + DEFAULT_POSTAL_CODE);
+
+        // Get all the partyList where postalCode equals to UPDATED_POSTAL_CODE
+        defaultPartyShouldNotBeFound("postalCode.equals=" + UPDATED_POSTAL_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByPostalCodeIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where postalCode not equals to DEFAULT_POSTAL_CODE
+        defaultPartyShouldNotBeFound("postalCode.notEquals=" + DEFAULT_POSTAL_CODE);
+
+        // Get all the partyList where postalCode not equals to UPDATED_POSTAL_CODE
+        defaultPartyShouldBeFound("postalCode.notEquals=" + UPDATED_POSTAL_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByPostalCodeIsInShouldWork() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where postalCode in DEFAULT_POSTAL_CODE or UPDATED_POSTAL_CODE
+        defaultPartyShouldBeFound("postalCode.in=" + DEFAULT_POSTAL_CODE + "," + UPDATED_POSTAL_CODE);
+
+        // Get all the partyList where postalCode equals to UPDATED_POSTAL_CODE
+        defaultPartyShouldNotBeFound("postalCode.in=" + UPDATED_POSTAL_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByPostalCodeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where postalCode is not null
+        defaultPartyShouldBeFound("postalCode.specified=true");
+
+        // Get all the partyList where postalCode is null
+        defaultPartyShouldNotBeFound("postalCode.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByPostalCodeContainsSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where postalCode contains DEFAULT_POSTAL_CODE
+        defaultPartyShouldBeFound("postalCode.contains=" + DEFAULT_POSTAL_CODE);
+
+        // Get all the partyList where postalCode contains UPDATED_POSTAL_CODE
+        defaultPartyShouldNotBeFound("postalCode.contains=" + UPDATED_POSTAL_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByPostalCodeNotContainsSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where postalCode does not contain DEFAULT_POSTAL_CODE
+        defaultPartyShouldNotBeFound("postalCode.doesNotContain=" + DEFAULT_POSTAL_CODE);
+
+        // Get all the partyList where postalCode does not contain UPDATED_POSTAL_CODE
+        defaultPartyShouldBeFound("postalCode.doesNotContain=" + UPDATED_POSTAL_CODE);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByMobileIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where mobile equals to DEFAULT_MOBILE
+        defaultPartyShouldBeFound("mobile.equals=" + DEFAULT_MOBILE);
+
+        // Get all the partyList where mobile equals to UPDATED_MOBILE
+        defaultPartyShouldNotBeFound("mobile.equals=" + UPDATED_MOBILE);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByMobileIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where mobile not equals to DEFAULT_MOBILE
+        defaultPartyShouldNotBeFound("mobile.notEquals=" + DEFAULT_MOBILE);
+
+        // Get all the partyList where mobile not equals to UPDATED_MOBILE
+        defaultPartyShouldBeFound("mobile.notEquals=" + UPDATED_MOBILE);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByMobileIsInShouldWork() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where mobile in DEFAULT_MOBILE or UPDATED_MOBILE
+        defaultPartyShouldBeFound("mobile.in=" + DEFAULT_MOBILE + "," + UPDATED_MOBILE);
+
+        // Get all the partyList where mobile equals to UPDATED_MOBILE
+        defaultPartyShouldNotBeFound("mobile.in=" + UPDATED_MOBILE);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByMobileIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where mobile is not null
+        defaultPartyShouldBeFound("mobile.specified=true");
+
+        // Get all the partyList where mobile is null
+        defaultPartyShouldNotBeFound("mobile.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByMobileContainsSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where mobile contains DEFAULT_MOBILE
+        defaultPartyShouldBeFound("mobile.contains=" + DEFAULT_MOBILE);
+
+        // Get all the partyList where mobile contains UPDATED_MOBILE
+        defaultPartyShouldNotBeFound("mobile.contains=" + UPDATED_MOBILE);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByMobileNotContainsSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where mobile does not contain DEFAULT_MOBILE
+        defaultPartyShouldNotBeFound("mobile.doesNotContain=" + DEFAULT_MOBILE);
+
+        // Get all the partyList where mobile does not contain UPDATED_MOBILE
+        defaultPartyShouldBeFound("mobile.doesNotContain=" + UPDATED_MOBILE);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByPartyTypeClassIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where partyTypeClassId equals to DEFAULT_PARTY_TYPE_CLASS_ID
+        defaultPartyShouldBeFound("partyTypeClassId.equals=" + DEFAULT_PARTY_TYPE_CLASS_ID);
+
+        // Get all the partyList where partyTypeClassId equals to UPDATED_PARTY_TYPE_CLASS_ID
+        defaultPartyShouldNotBeFound("partyTypeClassId.equals=" + UPDATED_PARTY_TYPE_CLASS_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByPartyTypeClassIdIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where partyTypeClassId not equals to DEFAULT_PARTY_TYPE_CLASS_ID
+        defaultPartyShouldNotBeFound("partyTypeClassId.notEquals=" + DEFAULT_PARTY_TYPE_CLASS_ID);
+
+        // Get all the partyList where partyTypeClassId not equals to UPDATED_PARTY_TYPE_CLASS_ID
+        defaultPartyShouldBeFound("partyTypeClassId.notEquals=" + UPDATED_PARTY_TYPE_CLASS_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByPartyTypeClassIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where partyTypeClassId in DEFAULT_PARTY_TYPE_CLASS_ID or UPDATED_PARTY_TYPE_CLASS_ID
+        defaultPartyShouldBeFound("partyTypeClassId.in=" + DEFAULT_PARTY_TYPE_CLASS_ID + "," + UPDATED_PARTY_TYPE_CLASS_ID);
+
+        // Get all the partyList where partyTypeClassId equals to UPDATED_PARTY_TYPE_CLASS_ID
+        defaultPartyShouldNotBeFound("partyTypeClassId.in=" + UPDATED_PARTY_TYPE_CLASS_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByPartyTypeClassIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where partyTypeClassId is not null
+        defaultPartyShouldBeFound("partyTypeClassId.specified=true");
+
+        // Get all the partyList where partyTypeClassId is null
+        defaultPartyShouldNotBeFound("partyTypeClassId.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByPartyTypeClassIdIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where partyTypeClassId is greater than or equal to DEFAULT_PARTY_TYPE_CLASS_ID
+        defaultPartyShouldBeFound("partyTypeClassId.greaterThanOrEqual=" + DEFAULT_PARTY_TYPE_CLASS_ID);
+
+        // Get all the partyList where partyTypeClassId is greater than or equal to UPDATED_PARTY_TYPE_CLASS_ID
+        defaultPartyShouldNotBeFound("partyTypeClassId.greaterThanOrEqual=" + UPDATED_PARTY_TYPE_CLASS_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByPartyTypeClassIdIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where partyTypeClassId is less than or equal to DEFAULT_PARTY_TYPE_CLASS_ID
+        defaultPartyShouldBeFound("partyTypeClassId.lessThanOrEqual=" + DEFAULT_PARTY_TYPE_CLASS_ID);
+
+        // Get all the partyList where partyTypeClassId is less than or equal to SMALLER_PARTY_TYPE_CLASS_ID
+        defaultPartyShouldNotBeFound("partyTypeClassId.lessThanOrEqual=" + SMALLER_PARTY_TYPE_CLASS_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByPartyTypeClassIdIsLessThanSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where partyTypeClassId is less than DEFAULT_PARTY_TYPE_CLASS_ID
+        defaultPartyShouldNotBeFound("partyTypeClassId.lessThan=" + DEFAULT_PARTY_TYPE_CLASS_ID);
+
+        // Get all the partyList where partyTypeClassId is less than UPDATED_PARTY_TYPE_CLASS_ID
+        defaultPartyShouldBeFound("partyTypeClassId.lessThan=" + UPDATED_PARTY_TYPE_CLASS_ID);
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByPartyTypeClassIdIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+
+        // Get all the partyList where partyTypeClassId is greater than DEFAULT_PARTY_TYPE_CLASS_ID
+        defaultPartyShouldNotBeFound("partyTypeClassId.greaterThan=" + DEFAULT_PARTY_TYPE_CLASS_ID);
+
+        // Get all the partyList where partyTypeClassId is greater than SMALLER_PARTY_TYPE_CLASS_ID
+        defaultPartyShouldBeFound("partyTypeClassId.greaterThan=" + SMALLER_PARTY_TYPE_CLASS_ID);
+    }
+
+    @Test
+    @Transactional
     void getAllPartiesByDescriptionIsEqualToSomething() throws Exception {
         // Initialize the database
         partyRepository.saveAndFlush(partyEntity);
@@ -886,25 +1618,6 @@ class PartyResourceIT {
 
     @Test
     @Transactional
-    void getAllPartiesByBranchsIsEqualToSomething() throws Exception {
-        // Initialize the database
-        partyRepository.saveAndFlush(partyEntity);
-        BranchEntity branchs = BranchResourceIT.createEntity(em);
-        em.persist(branchs);
-        em.flush();
-        partyEntity.addBranchs(branchs);
-        partyRepository.saveAndFlush(partyEntity);
-        Long branchsId = branchs.getId();
-
-        // Get all the partyList where branchs equals to branchsId
-        defaultPartyShouldBeFound("branchsId.equals=" + branchsId);
-
-        // Get all the partyList where branchs equals to (branchsId + 1)
-        defaultPartyShouldNotBeFound("branchsId.equals=" + (branchsId + 1));
-    }
-
-    @Test
-    @Transactional
     void getAllPartiesByCriticismsIsEqualToSomething() throws Exception {
         // Initialize the database
         partyRepository.saveAndFlush(partyEntity);
@@ -922,6 +1635,310 @@ class PartyResourceIT {
         defaultPartyShouldNotBeFound("criticismsId.equals=" + (criticismsId + 1));
     }
 
+    @Test
+    @Transactional
+    void getAllPartiesByFilesIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+        FileDocumentEntity files = FileDocumentResourceIT.createEntity(em);
+        em.persist(files);
+        em.flush();
+        partyEntity.addFiles(files);
+        partyRepository.saveAndFlush(partyEntity);
+        Long filesId = files.getId();
+
+        // Get all the partyList where files equals to filesId
+        defaultPartyShouldBeFound("filesId.equals=" + filesId);
+
+        // Get all the partyList where files equals to (filesId + 1)
+        defaultPartyShouldNotBeFound("filesId.equals=" + (filesId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByMoreInfoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+        PartyInformationEntity moreInfo = PartyInformationResourceIT.createEntity(em);
+        em.persist(moreInfo);
+        em.flush();
+        partyEntity.addMoreInfo(moreInfo);
+        partyRepository.saveAndFlush(partyEntity);
+        Long moreInfoId = moreInfo.getId();
+
+        // Get all the partyList where moreInfo equals to moreInfoId
+        defaultPartyShouldBeFound("moreInfoId.equals=" + moreInfoId);
+
+        // Get all the partyList where moreInfo equals to (moreInfoId + 1)
+        defaultPartyShouldNotBeFound("moreInfoId.equals=" + (moreInfoId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByWritedCommentsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+        CommentEntity writedComments = CommentResourceIT.createEntity(em);
+        em.persist(writedComments);
+        em.flush();
+        partyEntity.addWritedComments(writedComments);
+        partyRepository.saveAndFlush(partyEntity);
+        Long writedCommentsId = writedComments.getId();
+
+        // Get all the partyList where writedComments equals to writedCommentsId
+        defaultPartyShouldBeFound("writedCommentsId.equals=" + writedCommentsId);
+
+        // Get all the partyList where writedComments equals to (writedCommentsId + 1)
+        defaultPartyShouldNotBeFound("writedCommentsId.equals=" + (writedCommentsId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByAudienceCommentsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+        CommentEntity audienceComments = CommentResourceIT.createEntity(em);
+        em.persist(audienceComments);
+        em.flush();
+        partyEntity.addAudienceComments(audienceComments);
+        partyRepository.saveAndFlush(partyEntity);
+        Long audienceCommentsId = audienceComments.getId();
+
+        // Get all the partyList where audienceComments equals to audienceCommentsId
+        defaultPartyShouldBeFound("audienceCommentsId.equals=" + audienceCommentsId);
+
+        // Get all the partyList where audienceComments equals to (audienceCommentsId + 1)
+        defaultPartyShouldNotBeFound("audienceCommentsId.equals=" + (audienceCommentsId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByFoodTypesIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+        FoodTypeEntity foodTypes = FoodTypeResourceIT.createEntity(em);
+        em.persist(foodTypes);
+        em.flush();
+        partyEntity.addFoodTypes(foodTypes);
+        partyRepository.saveAndFlush(partyEntity);
+        Long foodTypesId = foodTypes.getId();
+
+        // Get all the partyList where foodTypes equals to foodTypesId
+        defaultPartyShouldBeFound("foodTypesId.equals=" + foodTypesId);
+
+        // Get all the partyList where foodTypes equals to (foodTypesId + 1)
+        defaultPartyShouldNotBeFound("foodTypesId.equals=" + (foodTypesId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByChildrenIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+        PartyEntity children = PartyResourceIT.createEntity(em);
+        em.persist(children);
+        em.flush();
+        partyEntity.addChildren(children);
+        partyRepository.saveAndFlush(partyEntity);
+        Long childrenId = children.getId();
+
+        // Get all the partyList where children equals to childrenId
+        defaultPartyShouldBeFound("childrenId.equals=" + childrenId);
+
+        // Get all the partyList where children equals to (childrenId + 1)
+        defaultPartyShouldNotBeFound("childrenId.equals=" + (childrenId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByContactsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+        ContactEntity contacts = ContactResourceIT.createEntity(em);
+        em.persist(contacts);
+        em.flush();
+        partyEntity.addContacts(contacts);
+        partyRepository.saveAndFlush(partyEntity);
+        Long contactsId = contacts.getId();
+
+        // Get all the partyList where contacts equals to contactsId
+        defaultPartyShouldBeFound("contactsId.equals=" + contactsId);
+
+        // Get all the partyList where contacts equals to (contactsId + 1)
+        defaultPartyShouldNotBeFound("contactsId.equals=" + (contactsId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByAddressesIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+        AddressEntity addresses = AddressResourceIT.createEntity(em);
+        em.persist(addresses);
+        em.flush();
+        partyEntity.addAddresses(addresses);
+        partyRepository.saveAndFlush(partyEntity);
+        Long addressesId = addresses.getId();
+
+        // Get all the partyList where addresses equals to addressesId
+        defaultPartyShouldBeFound("addressesId.equals=" + addressesId);
+
+        // Get all the partyList where addresses equals to (addressesId + 1)
+        defaultPartyShouldNotBeFound("addressesId.equals=" + (addressesId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByMenuItemsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+        MenuItemEntity menuItems = MenuItemResourceIT.createEntity(em);
+        em.persist(menuItems);
+        em.flush();
+        partyEntity.addMenuItems(menuItems);
+        partyRepository.saveAndFlush(partyEntity);
+        Long menuItemsId = menuItems.getId();
+
+        // Get all the partyList where menuItems equals to menuItemsId
+        defaultPartyShouldBeFound("menuItemsId.equals=" + menuItemsId);
+
+        // Get all the partyList where menuItems equals to (menuItemsId + 1)
+        defaultPartyShouldNotBeFound("menuItemsId.equals=" + (menuItemsId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByProduceFoodsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+        FoodEntity produceFoods = FoodResourceIT.createEntity(em);
+        em.persist(produceFoods);
+        em.flush();
+        partyEntity.addProduceFoods(produceFoods);
+        partyRepository.saveAndFlush(partyEntity);
+        Long produceFoodsId = produceFoods.getId();
+
+        // Get all the partyList where produceFoods equals to produceFoodsId
+        defaultPartyShouldBeFound("produceFoodsId.equals=" + produceFoodsId);
+
+        // Get all the partyList where produceFoods equals to (produceFoodsId + 1)
+        defaultPartyShouldNotBeFound("produceFoodsId.equals=" + (produceFoodsId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByDesignedFoodsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+        FoodEntity designedFoods = FoodResourceIT.createEntity(em);
+        em.persist(designedFoods);
+        em.flush();
+        partyEntity.addDesignedFoods(designedFoods);
+        partyRepository.saveAndFlush(partyEntity);
+        Long designedFoodsId = designedFoods.getId();
+
+        // Get all the partyList where designedFoods equals to designedFoodsId
+        defaultPartyShouldBeFound("designedFoodsId.equals=" + designedFoodsId);
+
+        // Get all the partyList where designedFoods equals to (designedFoodsId + 1)
+        defaultPartyShouldNotBeFound("designedFoodsId.equals=" + (designedFoodsId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByBuyerFactorsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+        FactorEntity buyerFactors = FactorResourceIT.createEntity(em);
+        em.persist(buyerFactors);
+        em.flush();
+        partyEntity.addBuyerFactors(buyerFactors);
+        partyRepository.saveAndFlush(partyEntity);
+        Long buyerFactorsId = buyerFactors.getId();
+
+        // Get all the partyList where buyerFactors equals to buyerFactorsId
+        defaultPartyShouldBeFound("buyerFactorsId.equals=" + buyerFactorsId);
+
+        // Get all the partyList where buyerFactors equals to (buyerFactorsId + 1)
+        defaultPartyShouldNotBeFound("buyerFactorsId.equals=" + (buyerFactorsId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesBySellerFactorsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+        FactorEntity sellerFactors = FactorResourceIT.createEntity(em);
+        em.persist(sellerFactors);
+        em.flush();
+        partyEntity.addSellerFactors(sellerFactors);
+        partyRepository.saveAndFlush(partyEntity);
+        Long sellerFactorsId = sellerFactors.getId();
+
+        // Get all the partyList where sellerFactors equals to sellerFactorsId
+        defaultPartyShouldBeFound("sellerFactorsId.equals=" + sellerFactorsId);
+
+        // Get all the partyList where sellerFactors equals to (sellerFactorsId + 1)
+        defaultPartyShouldNotBeFound("sellerFactorsId.equals=" + (sellerFactorsId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByParentIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+        PartyEntity parent = PartyResourceIT.createEntity(em);
+        em.persist(parent);
+        em.flush();
+        partyEntity.setParent(parent);
+        partyRepository.saveAndFlush(partyEntity);
+        Long parentId = parent.getId();
+
+        // Get all the partyList where parent equals to parentId
+        defaultPartyShouldBeFound("parentId.equals=" + parentId);
+
+        // Get all the partyList where parent equals to (parentId + 1)
+        defaultPartyShouldNotBeFound("parentId.equals=" + (parentId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByPartnerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+        PartnerEntity partner = PartnerResourceIT.createEntity(em);
+        em.persist(partner);
+        em.flush();
+        partyEntity.setPartner(partner);
+        partyRepository.saveAndFlush(partyEntity);
+        Long partnerId = partner.getId();
+
+        // Get all the partyList where partner equals to partnerId
+        defaultPartyShouldBeFound("partnerId.equals=" + partnerId);
+
+        // Get all the partyList where partner equals to (partnerId + 1)
+        defaultPartyShouldNotBeFound("partnerId.equals=" + (partnerId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllPartiesByPersonIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partyRepository.saveAndFlush(partyEntity);
+        PersonEntity person = PersonResourceIT.createEntity(em);
+        em.persist(person);
+        em.flush();
+        partyEntity.setPerson(person);
+        partyRepository.saveAndFlush(partyEntity);
+        Long personId = person.getId();
+
+        // Get all the partyList where person equals to personId
+        defaultPartyShouldBeFound("personId.equals=" + personId);
+
+        // Get all the partyList where person equals to (personId + 1)
+        defaultPartyShouldNotBeFound("personId.equals=" + (personId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -932,11 +1949,19 @@ class PartyResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(partyEntity.getId().intValue())))
             .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
+            .andExpect(jsonPath("$.[*].photoContentType").value(hasItem(DEFAULT_PHOTO_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))))
             .andExpect(jsonPath("$.[*].partyCode").value(hasItem(DEFAULT_PARTY_CODE)))
             .andExpect(jsonPath("$.[*].tradeTitle").value(hasItem(DEFAULT_TRADE_TITLE)))
             .andExpect(jsonPath("$.[*].activationDate").value(hasItem(DEFAULT_ACTIVATION_DATE.toString())))
             .andExpect(jsonPath("$.[*].expirationDate").value(hasItem(DEFAULT_EXPIRATION_DATE.toString())))
             .andExpect(jsonPath("$.[*].activationStatus").value(hasItem(DEFAULT_ACTIVATION_STATUS.booleanValue())))
+            .andExpect(jsonPath("$.[*].lat").value(hasItem(DEFAULT_LAT.doubleValue())))
+            .andExpect(jsonPath("$.[*].lon").value(hasItem(DEFAULT_LON.doubleValue())))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
+            .andExpect(jsonPath("$.[*].postalCode").value(hasItem(DEFAULT_POSTAL_CODE)))
+            .andExpect(jsonPath("$.[*].mobile").value(hasItem(DEFAULT_MOBILE)))
+            .andExpect(jsonPath("$.[*].partyTypeClassId").value(hasItem(DEFAULT_PARTY_TYPE_CLASS_ID.intValue())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
 
         // Check, that the count call also returns 1
@@ -987,11 +2012,19 @@ class PartyResourceIT {
         em.detach(updatedPartyEntity);
         updatedPartyEntity
             .title(UPDATED_TITLE)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE)
             .partyCode(UPDATED_PARTY_CODE)
             .tradeTitle(UPDATED_TRADE_TITLE)
             .activationDate(UPDATED_ACTIVATION_DATE)
             .expirationDate(UPDATED_EXPIRATION_DATE)
             .activationStatus(UPDATED_ACTIVATION_STATUS)
+            .lat(UPDATED_LAT)
+            .lon(UPDATED_LON)
+            .address(UPDATED_ADDRESS)
+            .postalCode(UPDATED_POSTAL_CODE)
+            .mobile(UPDATED_MOBILE)
+            .partyTypeClassId(UPDATED_PARTY_TYPE_CLASS_ID)
             .description(UPDATED_DESCRIPTION);
         PartyDTO partyDTO = partyMapper.toDto(updatedPartyEntity);
 
@@ -1008,11 +2041,19 @@ class PartyResourceIT {
         assertThat(partyList).hasSize(databaseSizeBeforeUpdate);
         PartyEntity testParty = partyList.get(partyList.size() - 1);
         assertThat(testParty.getTitle()).isEqualTo(UPDATED_TITLE);
+        assertThat(testParty.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testParty.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
         assertThat(testParty.getPartyCode()).isEqualTo(UPDATED_PARTY_CODE);
         assertThat(testParty.getTradeTitle()).isEqualTo(UPDATED_TRADE_TITLE);
         assertThat(testParty.getActivationDate()).isEqualTo(UPDATED_ACTIVATION_DATE);
         assertThat(testParty.getExpirationDate()).isEqualTo(UPDATED_EXPIRATION_DATE);
         assertThat(testParty.getActivationStatus()).isEqualTo(UPDATED_ACTIVATION_STATUS);
+        assertThat(testParty.getLat()).isEqualTo(UPDATED_LAT);
+        assertThat(testParty.getLon()).isEqualTo(UPDATED_LON);
+        assertThat(testParty.getAddress()).isEqualTo(UPDATED_ADDRESS);
+        assertThat(testParty.getPostalCode()).isEqualTo(UPDATED_POSTAL_CODE);
+        assertThat(testParty.getMobile()).isEqualTo(UPDATED_MOBILE);
+        assertThat(testParty.getPartyTypeClassId()).isEqualTo(UPDATED_PARTY_TYPE_CLASS_ID);
         assertThat(testParty.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
     }
 
@@ -1095,10 +2136,16 @@ class PartyResourceIT {
 
         partialUpdatedPartyEntity
             .title(UPDATED_TITLE)
-            .partyCode(UPDATED_PARTY_CODE)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE)
+            .tradeTitle(UPDATED_TRADE_TITLE)
             .activationDate(UPDATED_ACTIVATION_DATE)
             .expirationDate(UPDATED_EXPIRATION_DATE)
             .activationStatus(UPDATED_ACTIVATION_STATUS)
+            .lat(UPDATED_LAT)
+            .lon(UPDATED_LON)
+            .address(UPDATED_ADDRESS)
+            .mobile(UPDATED_MOBILE)
             .description(UPDATED_DESCRIPTION);
 
         restPartyMockMvc
@@ -1114,11 +2161,19 @@ class PartyResourceIT {
         assertThat(partyList).hasSize(databaseSizeBeforeUpdate);
         PartyEntity testParty = partyList.get(partyList.size() - 1);
         assertThat(testParty.getTitle()).isEqualTo(UPDATED_TITLE);
-        assertThat(testParty.getPartyCode()).isEqualTo(UPDATED_PARTY_CODE);
-        assertThat(testParty.getTradeTitle()).isEqualTo(DEFAULT_TRADE_TITLE);
+        assertThat(testParty.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testParty.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
+        assertThat(testParty.getPartyCode()).isEqualTo(DEFAULT_PARTY_CODE);
+        assertThat(testParty.getTradeTitle()).isEqualTo(UPDATED_TRADE_TITLE);
         assertThat(testParty.getActivationDate()).isEqualTo(UPDATED_ACTIVATION_DATE);
         assertThat(testParty.getExpirationDate()).isEqualTo(UPDATED_EXPIRATION_DATE);
         assertThat(testParty.getActivationStatus()).isEqualTo(UPDATED_ACTIVATION_STATUS);
+        assertThat(testParty.getLat()).isEqualTo(UPDATED_LAT);
+        assertThat(testParty.getLon()).isEqualTo(UPDATED_LON);
+        assertThat(testParty.getAddress()).isEqualTo(UPDATED_ADDRESS);
+        assertThat(testParty.getPostalCode()).isEqualTo(DEFAULT_POSTAL_CODE);
+        assertThat(testParty.getMobile()).isEqualTo(UPDATED_MOBILE);
+        assertThat(testParty.getPartyTypeClassId()).isEqualTo(DEFAULT_PARTY_TYPE_CLASS_ID);
         assertThat(testParty.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
     }
 
@@ -1136,11 +2191,19 @@ class PartyResourceIT {
 
         partialUpdatedPartyEntity
             .title(UPDATED_TITLE)
+            .photo(UPDATED_PHOTO)
+            .photoContentType(UPDATED_PHOTO_CONTENT_TYPE)
             .partyCode(UPDATED_PARTY_CODE)
             .tradeTitle(UPDATED_TRADE_TITLE)
             .activationDate(UPDATED_ACTIVATION_DATE)
             .expirationDate(UPDATED_EXPIRATION_DATE)
             .activationStatus(UPDATED_ACTIVATION_STATUS)
+            .lat(UPDATED_LAT)
+            .lon(UPDATED_LON)
+            .address(UPDATED_ADDRESS)
+            .postalCode(UPDATED_POSTAL_CODE)
+            .mobile(UPDATED_MOBILE)
+            .partyTypeClassId(UPDATED_PARTY_TYPE_CLASS_ID)
             .description(UPDATED_DESCRIPTION);
 
         restPartyMockMvc
@@ -1156,11 +2219,19 @@ class PartyResourceIT {
         assertThat(partyList).hasSize(databaseSizeBeforeUpdate);
         PartyEntity testParty = partyList.get(partyList.size() - 1);
         assertThat(testParty.getTitle()).isEqualTo(UPDATED_TITLE);
+        assertThat(testParty.getPhoto()).isEqualTo(UPDATED_PHOTO);
+        assertThat(testParty.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
         assertThat(testParty.getPartyCode()).isEqualTo(UPDATED_PARTY_CODE);
         assertThat(testParty.getTradeTitle()).isEqualTo(UPDATED_TRADE_TITLE);
         assertThat(testParty.getActivationDate()).isEqualTo(UPDATED_ACTIVATION_DATE);
         assertThat(testParty.getExpirationDate()).isEqualTo(UPDATED_EXPIRATION_DATE);
         assertThat(testParty.getActivationStatus()).isEqualTo(UPDATED_ACTIVATION_STATUS);
+        assertThat(testParty.getLat()).isEqualTo(UPDATED_LAT);
+        assertThat(testParty.getLon()).isEqualTo(UPDATED_LON);
+        assertThat(testParty.getAddress()).isEqualTo(UPDATED_ADDRESS);
+        assertThat(testParty.getPostalCode()).isEqualTo(UPDATED_POSTAL_CODE);
+        assertThat(testParty.getMobile()).isEqualTo(UPDATED_MOBILE);
+        assertThat(testParty.getPartyTypeClassId()).isEqualTo(UPDATED_PARTY_TYPE_CLASS_ID);
         assertThat(testParty.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
     }
 

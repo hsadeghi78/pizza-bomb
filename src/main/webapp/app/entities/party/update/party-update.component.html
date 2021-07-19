@@ -32,6 +32,44 @@
         </div>
 
         <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.party.photo" for="field_photo">Photo</label>
+          <div>
+            <img
+              [src]="'data:' + editForm.get('photoContentType')!.value + ';base64,' + editForm.get('photo')!.value"
+              style="max-height: 100px"
+              *ngIf="editForm.get('photo')!.value"
+              alt="party image"
+            />
+            <div *ngIf="editForm.get('photo')!.value" class="form-text text-danger clearfix">
+              <span class="pull-left">{{ editForm.get('photoContentType')!.value }}, {{ byteSize(editForm.get('photo')!.value) }}</span>
+              <button
+                type="button"
+                (click)="clearInputImage('photo', 'photoContentType', 'file_photo')"
+                class="btn btn-secondary btn-xs pull-right"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input
+              type="file"
+              id="file_photo"
+              data-cy="photo"
+              (change)="setFileData($event, 'photo', true)"
+              accept="image/*"
+              jhiTranslate="entity.action.addimage"
+            />
+          </div>
+          <input type="hidden" class="form-control" name="photo" id="field_photo" data-cy="photo" formControlName="photo" />
+          <input
+            type="hidden"
+            class="form-control"
+            name="photoContentType"
+            id="field_photoContentType"
+            formControlName="photoContentType"
+          />
+        </div>
+
+        <div class="form-group">
           <label class="form-control-label" jhiTranslate="bombApp.party.partyCode" for="field_partyCode">Party Code</label>
           <input type="text" class="form-control" name="partyCode" id="field_partyCode" data-cy="partyCode" formControlName="partyCode" />
           <div *ngIf="editForm.get('partyCode')!.invalid && (editForm.get('partyCode')!.dirty || editForm.get('partyCode')!.touched)">
@@ -166,6 +204,140 @@
         </div>
 
         <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.party.lat" for="field_lat">Lat</label>
+          <input type="number" class="form-control" name="lat" id="field_lat" data-cy="lat" formControlName="lat" />
+          <div *ngIf="editForm.get('lat')!.invalid && (editForm.get('lat')!.dirty || editForm.get('lat')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('lat')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('lat')?.errors?.number" jhiTranslate="entity.validation.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.party.lon" for="field_lon">Lon</label>
+          <input type="number" class="form-control" name="lon" id="field_lon" data-cy="lon" formControlName="lon" />
+          <div *ngIf="editForm.get('lon')!.invalid && (editForm.get('lon')!.dirty || editForm.get('lon')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('lon')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('lon')?.errors?.number" jhiTranslate="entity.validation.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.party.address" for="field_address">Address</label>
+          <input type="text" class="form-control" name="address" id="field_address" data-cy="address" formControlName="address" />
+          <div *ngIf="editForm.get('address')!.invalid && (editForm.get('address')!.dirty || editForm.get('address')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('address')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('address')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 3000 }"
+            >
+              This field cannot be longer than 3000 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.party.postalCode" for="field_postalCode">Postal Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="postalCode"
+            id="field_postalCode"
+            data-cy="postalCode"
+            formControlName="postalCode"
+          />
+          <div *ngIf="editForm.get('postalCode')!.invalid && (editForm.get('postalCode')!.dirty || editForm.get('postalCode')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('postalCode')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('postalCode')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 12 }"
+            >
+              This field cannot be longer than 12 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.party.mobile" for="field_mobile">Mobile</label>
+          <input type="text" class="form-control" name="mobile" id="field_mobile" data-cy="mobile" formControlName="mobile" />
+          <div *ngIf="editForm.get('mobile')!.invalid && (editForm.get('mobile')!.dirty || editForm.get('mobile')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('mobile')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('mobile')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 15 }"
+            >
+              This field cannot be longer than 15 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="bombApp.party.partyTypeClassId"
+            for="field_partyTypeClassId"
+            [ngbTooltip]="'bombApp.party.help.partyTypeClassId' | translate"
+            >Party Type Class Id</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="partyTypeClassId"
+            id="field_partyTypeClassId"
+            data-cy="partyTypeClassId"
+            formControlName="partyTypeClassId"
+          />
+          <div
+            *ngIf="
+              editForm.get('partyTypeClassId')!.invalid &&
+              (editForm.get('partyTypeClassId')!.dirty || editForm.get('partyTypeClassId')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('partyTypeClassId')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('partyTypeClassId')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
           <label class="form-control-label" jhiTranslate="bombApp.party.description" for="field_description">Description</label>
           <input
             type="text"
@@ -185,6 +357,45 @@
               This field cannot be longer than 3000 characters.
             </small>
           </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.party.parent" for="field_parent">Parent</label>
+          <select class="form-control" id="field_parent" data-cy="parent" name="parent" formControlName="parent">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="partyOption.id === editForm.get('parent')!.value?.id ? editForm.get('parent')!.value : partyOption"
+              *ngFor="let partyOption of partiesSharedCollection; trackBy: trackPartyById"
+            >
+              {{ partyOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.party.partner" for="field_partner">Partner</label>
+          <select class="form-control" id="field_partner" data-cy="partner" name="partner" formControlName="partner">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="partnerOption.id === editForm.get('partner')!.value?.id ? editForm.get('partner')!.value : partnerOption"
+              *ngFor="let partnerOption of partnersSharedCollection; trackBy: trackPartnerById"
+            >
+              {{ partnerOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.party.person" for="field_person">Person</label>
+          <select class="form-control" id="field_person" data-cy="person" name="person" formControlName="person">
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="personOption.id === editForm.get('person')!.value?.id ? editForm.get('person')!.value : personOption"
+              *ngFor="let personOption of peopleSharedCollection; trackBy: trackPersonById"
+            >
+              {{ personOption.id }}
+            </option>
+          </select>
         </div>
       </div>
 

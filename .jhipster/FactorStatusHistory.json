@@ -1,0 +1,28 @@
+{
+  "name": "FactorStatusHistory",
+  "fields": [
+    {
+      "fieldName": "factorId",
+      "fieldType": "Long",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "FactorStatus",
+      "fieldValues": "INITIATE,PRINTED,FINAL,KITCHEN,READY,DELIVERY_SUCCESS,DELIVERY_FAIL,CANCEL,DELETED",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [],
+  "javadoc": "4 field fixed",
+  "entityTableName": "factor_status_history",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210718092814"
+}

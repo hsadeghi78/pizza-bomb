@@ -42,7 +42,28 @@
     "jwtSecretKey": "Y2YwYjRmNjY1NThlZDA4MmI2MWE1NDcwNDg3NzE5NTA4ODZiMDMyMjJkZGJlYjFlOWM5OTE1MTNjMzMzZmE3ZjY1Njk0MTQ4ZjdhNDM3ODJkMGY3OTdlOWEyN2RlOTg4OWM5ZWNkY2NmMDZkM2M4N2Q1ZDg2NGM1YTI5NDdkOTk=",
     "clientPackageManager": "npm",
     "languages": ["fa", "en"],
-    "entities": ["Party", "Branch", "Criticism"],
-    "lastLiquibaseTimestamp": 1620471781000
+    "entities": [
+      "Party",
+      "Branch",
+      "Criticism",
+      "Address",
+      "Contact",
+      "Partner",
+      "Person",
+      "PartyInformation",
+      "Comment",
+      "ClassType",
+      "Classification",
+      "FoodType",
+      "Food",
+      "Factor",
+      "FactorItem",
+      "MenuItem",
+      "PriceHistory",
+      "FactorStatusHistory",
+      "ConsumeMaterial",
+      "FileDocument"
+    ],
+    "lastLiquibaseTimestamp": 1626600496000
   }
 }

@@ -1,0 +1,9 @@
+{
+  "bombApp": {
+    "FactorOrderWay": {
+      "null": "",
+      "PHONE_CALL": "PHONE_CALL",
+      "IN_PERSON": "IN_PERSON"
+    }
+  }
+}

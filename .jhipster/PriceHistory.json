@@ -1,0 +1,30 @@
+{
+  "name": "PriceHistory",
+  "fields": [
+    {
+      "fieldName": "foodId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "materialId",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "price",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "relationships": [],
+  "javadoc": "4 field fixed",
+  "entityTableName": "price_history",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210718092813"
+}

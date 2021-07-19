@@ -1,2 +1,11 @@
-id;title;party_code;trade_title;activation_date;expiration_date;activation_status;description
-1;up;شناسایی protocol کلاس;TCP;2021-05-07;2021-05-07;false;ها بهینه
+id;title;photo;photo_content_type;party_code;trade_title;activation_date;expiration_date;activation_status;lat;lon;address;postal_code;mobile;party_type_class_id;description
+1;خوزستان سنگاپور;../fake-data/blob/hipster.png;image/png;Borders Account IB;عملیات;2021-05-07;2021-05-07;false;27606;92071;نکردنی خانه;پیشرو جذاب چ;سلامتی input;65093;تامین
+2;اعتباری;../fake-data/blob/hipster.png;image/png;پس عملکرد مورف;دست;2021-05-07;2021-05-07;true;733;83448;بازارهای;الکترونیک مب;مرکب;85377;programming مسکن
+3;پیشرو پیش;../fake-data/blob/hipster.png;image/png;بچه;Avon چوبی;2021-05-08;2021-05-08;true;83502;54166;باغ نرم;پلاستیکی ارم;مالک;72065;اینترانت دینار پرداخت
+4;کفش;../fake-data/blob/hipster.png;image/png;bluetooth صنعتی ناحیه;اموزشی;2021-05-07;2021-05-08;false;94949;68578;پویا;سمیه سپرده;شخصی;70821;bus برنامه رسالت
+5;براق bandwidth;../fake-data/blob/hipster.png;image/png;سازی Account;فلزی بایگانی بتنی;2021-05-07;2021-05-07;false;1419;8442;انداز reboot;override Bed;connecting;15402;Account
+6;hacking hack;../fake-data/blob/hipster.png;image/png;سفید معمولی;صورتحساب شناسایی قابلیت;2021-05-07;2021-05-07;true;60861;30859;سبز پیتزا معمولی;Account سوله;ADP نسل خوزستان;14104;کلون
+7;ارتباطات پذیرفتن استیل;../fake-data/blob/hipster.png;image/png;جهته استادمعین ایران;سلامتی;2021-05-07;2021-05-08;true;81996;73124;بدون;کاربردی pane;شخصی;97162;وب program
+8;کاربردی;../fake-data/blob/hipster.png;image/png;panel طعم درآمد;وام پلتفرم;2021-05-07;2021-05-07;true;8687;41362;سرمایه;monitor;program;96452;پزو
+9;24/7 کرمانشاه;../fake-data/blob/hipster.png;image/png;بدون;تفاوت فرانک copy;2021-05-07;2021-05-07;true;41410;72362;مشتری بر کارشناس;استیل شناسای;quantifying محت;66336;کاربردی 1080p صورتحساب
+10;اسباب سلامتی FTP;../fake-data/blob/hipster.png;image/png;المللی;اموزشی سپرده Avon;2021-05-08;2021-05-07;true;83096;2481;مرکزی رمزگذاری افغانی;خواربار الکت;SDD دو virtual;84009;صورتحساب

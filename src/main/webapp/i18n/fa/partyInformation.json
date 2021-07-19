@@ -1,0 +1,27 @@
+{
+  "bombApp": {
+    "partyInformation": {
+      "home": {
+        "title": "Party Informations",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Party Information",
+        "createOrEditLabel": "Create or edit a Party Information",
+        "notFound": "No Party Informations found"
+      },
+      "created": "A new Party Information is created with identifier {{ param }}",
+      "updated": "A Party Information is updated with identifier {{ param }}",
+      "deleted": "A Party Information is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Party Information {{ id }}?"
+      },
+      "detail": {
+        "title": "Party Information"
+      },
+      "id": "ID",
+      "infoType": "Info Type",
+      "infoTitle": "Info Title",
+      "infoDesc": "Info Desc",
+      "party": "Party"
+    }
+  }
+}

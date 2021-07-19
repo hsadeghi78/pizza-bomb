@@ -1,0 +1,12 @@
+{
+  "bombApp": {
+    "ContactType": {
+      "null": "",
+      "TELEPHONE": "TELEPHONE",
+      "MOBILE": "MOBILE",
+      "FAX": "FAX",
+      "EMAIL": "EMAIL",
+      "PAGER": "PAGER"
+    }
+  }
+}

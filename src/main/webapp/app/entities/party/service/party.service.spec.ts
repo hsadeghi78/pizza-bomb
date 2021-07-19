@@ -27,11 +27,19 @@ describe('Service Tests', () => {
       elemDefault = {
         id: 0,
         title: 'AAAAAAA',
+        photoContentType: 'image/png',
+        photo: 'AAAAAAA',
         partyCode: 'AAAAAAA',
         tradeTitle: 'AAAAAAA',
         activationDate: currentDate,
         expirationDate: currentDate,
         activationStatus: false,
+        lat: 0,
+        lon: 0,
+        address: 'AAAAAAA',
+        postalCode: 'AAAAAAA',
+        mobile: 'AAAAAAA',
+        partyTypeClassId: 0,
         description: 'AAAAAAA',
       };
     });
@@ -83,11 +91,18 @@ describe('Service Tests', () => {
           {
             id: 1,
             title: 'BBBBBB',
+            photo: 'BBBBBB',
             partyCode: 'BBBBBB',
             tradeTitle: 'BBBBBB',
             activationDate: currentDate.format(DATE_FORMAT),
             expirationDate: currentDate.format(DATE_FORMAT),
             activationStatus: true,
+            lat: 1,
+            lon: 1,
+            address: 'BBBBBB',
+            postalCode: 'BBBBBB',
+            mobile: 'BBBBBB',
+            partyTypeClassId: 1,
             description: 'BBBBBB',
           },
           elemDefault
@@ -112,10 +127,15 @@ describe('Service Tests', () => {
         const patchObject = Object.assign(
           {
             title: 'BBBBBB',
-            partyCode: 'BBBBBB',
+            photo: 'BBBBBB',
+            tradeTitle: 'BBBBBB',
             activationDate: currentDate.format(DATE_FORMAT),
             expirationDate: currentDate.format(DATE_FORMAT),
             activationStatus: true,
+            lat: 1,
+            lon: 1,
+            address: 'BBBBBB',
+            mobile: 'BBBBBB',
             description: 'BBBBBB',
           },
           new Party()
@@ -143,11 +163,18 @@ describe('Service Tests', () => {
           {
             id: 1,
             title: 'BBBBBB',
+            photo: 'BBBBBB',
             partyCode: 'BBBBBB',
             tradeTitle: 'BBBBBB',
             activationDate: currentDate.format(DATE_FORMAT),
             expirationDate: currentDate.format(DATE_FORMAT),
             activationStatus: true,
+            lat: 1,
+            lon: 1,
+            address: 'BBBBBB',
+            postalCode: 'BBBBBB',
+            mobile: 'BBBBBB',
+            partyTypeClassId: 1,
             description: 'BBBBBB',
           },
           elemDefault
@@ -206,7 +233,7 @@ describe('Service Tests', () => {
         });
 
         it('should add only unique Party to an array', () => {
-          const partyArray: IParty[] = [{ id: 123 }, { id: 456 }, { id: 94688 }];
+          const partyArray: IParty[] = [{ id: 123 }, { id: 456 }, { id: 85559 }];
           const partyCollection: IParty[] = [{ id: 123 }];
           expectedResult = service.addPartyToCollectionIfMissing(partyCollection, ...partyArray);
           expect(expectedResult).toHaveLength(3);

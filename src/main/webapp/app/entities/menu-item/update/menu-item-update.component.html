@@ -1,0 +1,147 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-menu-item-heading" data-cy="MenuItemCreateUpdateHeading" jhiTranslate="bombApp.menuItem.home.createOrEditLabel">
+        Create or edit a Menu Item
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.menuItem.title" for="field_title">Title</label>
+          <input type="text" class="form-control" name="title" id="field_title" data-cy="title" formControlName="title" />
+          <div *ngIf="editForm.get('title')!.invalid && (editForm.get('title')!.dirty || editForm.get('title')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('title')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('title')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 200 }"
+            >
+              This field cannot be longer than 200 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.menuItem.expirationDate" for="field_expirationDate"
+            >Expiration Date</label
+          >
+          <div class="d-flex">
+            <input
+              id="field_expirationDate"
+              data-cy="expirationDate"
+              type="datetime-local"
+              class="form-control"
+              name="expirationDate"
+              formControlName="expirationDate"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          <div
+            *ngIf="
+              editForm.get('expirationDate')!.invalid && (editForm.get('expirationDate')!.dirty || editForm.get('expirationDate')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('expirationDate')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('expirationDate')?.errors?.ZonedDateTimelocal"
+              jhiTranslate="entity.validation.ZonedDateTimelocal"
+            >
+              This field should be a date and time.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.menuItem.description" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+          <div *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('description')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 1000 }"
+            >
+              This field cannot be longer than 1000 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.menuItem.party" for="field_party">Party</label>
+          <select class="form-control" id="field_party" data-cy="party" name="party" formControlName="party">
+            <option *ngIf="!editForm.get('party')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="partyOption.id === editForm.get('party')!.value?.id ? editForm.get('party')!.value : partyOption"
+              *ngFor="let partyOption of partiesSharedCollection; trackBy: trackPartyById"
+            >
+              {{ partyOption.id }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['party'])!.invalid && (editForm.get(['party'])!.dirty || editForm.get(['party'])!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get(['party'])?.errors?.required" jhiTranslate="entity.validation.required">
+            This field is required.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.menuItem.food" for="field_food">Food</label>
+          <select class="form-control" id="field_food" data-cy="food" name="food" formControlName="food">
+            <option *ngIf="!editForm.get('food')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="foodOption.id === editForm.get('food')!.value?.id ? editForm.get('food')!.value : foodOption"
+              *ngFor="let foodOption of foodsSharedCollection; trackBy: trackFoodById"
+            >
+              {{ foodOption.id }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['food'])!.invalid && (editForm.get(['food'])!.dirty || editForm.get(['food'])!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get(['food'])?.errors?.required" jhiTranslate="entity.validation.required">
+            This field is required.
+          </small>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -13,7 +13,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "criticism")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class CriticismEntity extends AbstractAuditingEntity implements Serializable {
+public class CriticismEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -40,7 +40,28 @@ public class CriticismEntity extends AbstractAuditingEntity implements Serializa
     private String description;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "branchs", "criticisms" }, allowSetters = true)
+    @JsonIgnoreProperties(
+        value = {
+            "criticisms",
+            "files",
+            "moreInfos",
+            "writedComments",
+            "audienceComments",
+            "foodTypes",
+            "children",
+            "contacts",
+            "addresses",
+            "menuItems",
+            "produceFoods",
+            "designedFoods",
+            "buyerFactors",
+            "sellerFactors",
+            "parent",
+            "partner",
+            "person",
+        },
+        allowSetters = true
+    )
     private PartyEntity party;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

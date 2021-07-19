@@ -1,0 +1,258 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-food-heading" data-cy="FoodCreateUpdateHeading" jhiTranslate="bombApp.food.home.createOrEditLabel">
+        Create or edit a Food
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.food.title" for="field_title">Title</label>
+          <input type="text" class="form-control" name="title" id="field_title" data-cy="title" formControlName="title" />
+          <div *ngIf="editForm.get('title')!.invalid && (editForm.get('title')!.dirty || editForm.get('title')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('title')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('title')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 200 }"
+            >
+              This field cannot be longer than 200 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.food.foodCode" for="field_foodCode">Food Code</label>
+          <input type="text" class="form-control" name="foodCode" id="field_foodCode" data-cy="foodCode" formControlName="foodCode" />
+          <div *ngIf="editForm.get('foodCode')!.invalid && (editForm.get('foodCode')!.dirty || editForm.get('foodCode')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('foodCode')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('foodCode')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 100 }"
+            >
+              This field cannot be longer than 100 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.food.sizeClassId" for="field_sizeClassId">Size Class Id</label>
+          <input
+            type="number"
+            class="form-control"
+            name="sizeClassId"
+            id="field_sizeClassId"
+            data-cy="sizeClassId"
+            formControlName="sizeClassId"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.food.photo" for="field_photo">Photo</label>
+          <div>
+            <img
+              [src]="'data:' + editForm.get('photoContentType')!.value + ';base64,' + editForm.get('photo')!.value"
+              style="max-height: 100px"
+              *ngIf="editForm.get('photo')!.value"
+              alt="food image"
+            />
+            <div *ngIf="editForm.get('photo')!.value" class="form-text text-danger clearfix">
+              <span class="pull-left">{{ editForm.get('photoContentType')!.value }}, {{ byteSize(editForm.get('photo')!.value) }}</span>
+              <button
+                type="button"
+                (click)="clearInputImage('photo', 'photoContentType', 'file_photo')"
+                class="btn btn-secondary btn-xs pull-right"
+              >
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+            <input
+              type="file"
+              id="file_photo"
+              data-cy="photo"
+              (change)="setFileData($event, 'photo', true)"
+              accept="image/*"
+              jhiTranslate="entity.action.addimage"
+            />
+          </div>
+          <input type="hidden" class="form-control" name="photo" id="field_photo" data-cy="photo" formControlName="photo" />
+          <input
+            type="hidden"
+            class="form-control"
+            name="photoContentType"
+            id="field_photoContentType"
+            formControlName="photoContentType"
+          />
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="bombApp.food.categoryClassId"
+            for="field_categoryClassId"
+            [ngbTooltip]="'bombApp.food.help.categoryClassId' | translate"
+            >Category Class Id</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="categoryClassId"
+            id="field_categoryClassId"
+            data-cy="categoryClassId"
+            formControlName="categoryClassId"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.food.lastPrice" for="field_lastPrice">Last Price</label>
+          <input type="number" class="form-control" name="lastPrice" id="field_lastPrice" data-cy="lastPrice" formControlName="lastPrice" />
+          <div *ngIf="editForm.get('lastPrice')!.invalid && (editForm.get('lastPrice')!.dirty || editForm.get('lastPrice')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('lastPrice')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('lastPrice')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.food.description" for="field_description">Description</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            id="field_description"
+            data-cy="description"
+            formControlName="description"
+          />
+          <div *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('description')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 3000 }"
+            >
+              This field cannot be longer than 3000 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.food.producerParty" for="field_producerParty">Producer Party</label>
+          <select
+            class="form-control"
+            id="field_producerParty"
+            data-cy="producerParty"
+            name="producerParty"
+            formControlName="producerParty"
+          >
+            <option *ngIf="!editForm.get('producerParty')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="partyOption.id === editForm.get('producerParty')!.value?.id ? editForm.get('producerParty')!.value : partyOption"
+              *ngFor="let partyOption of partiesSharedCollection; trackBy: trackPartyById"
+            >
+              {{ partyOption.id }}
+            </option>
+          </select>
+        </div>
+        <div
+          *ngIf="
+            editForm.get(['producerParty'])!.invalid && (editForm.get(['producerParty'])!.dirty || editForm.get(['producerParty'])!.touched)
+          "
+        >
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['producerParty'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.food.designerParty" for="field_designerParty">Designer Party</label>
+          <select
+            class="form-control"
+            id="field_designerParty"
+            data-cy="designerParty"
+            name="designerParty"
+            formControlName="designerParty"
+          >
+            <option [ngValue]="null"></option>
+            <option
+              [ngValue]="partyOption.id === editForm.get('designerParty')!.value?.id ? editForm.get('designerParty')!.value : partyOption"
+              *ngFor="let partyOption of partiesSharedCollection; trackBy: trackPartyById"
+            >
+              {{ partyOption.id }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.food.foodType" for="field_foodType">Food Type</label>
+          <select class="form-control" id="field_foodType" data-cy="foodType" name="foodType" formControlName="foodType">
+            <option *ngIf="!editForm.get('foodType')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="foodTypeOption.id === editForm.get('foodType')!.value?.id ? editForm.get('foodType')!.value : foodTypeOption"
+              *ngFor="let foodTypeOption of foodTypesSharedCollection; trackBy: trackFoodTypeById"
+            >
+              {{ foodTypeOption.id }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['foodType'])!.invalid && (editForm.get(['foodType'])!.dirty || editForm.get(['foodType'])!.touched)">
+          <small
+            class="form-text text-danger"
+            *ngIf="editForm.get(['foodType'])?.errors?.required"
+            jhiTranslate="entity.validation.required"
+          >
+            This field is required.
+          </small>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

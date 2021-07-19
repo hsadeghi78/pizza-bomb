@@ -104,17 +104,26 @@ public class PartyQueryService extends QueryService<PartyEntity> {
             if (criteria.getActivationStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getActivationStatus(), PartyEntity_.activationStatus));
             }
+            if (criteria.getLat() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLat(), PartyEntity_.lat));
+            }
+            if (criteria.getLon() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getLon(), PartyEntity_.lon));
+            }
+            if (criteria.getAddress() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAddress(), PartyEntity_.address));
+            }
+            if (criteria.getPostalCode() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPostalCode(), PartyEntity_.postalCode));
+            }
+            if (criteria.getMobile() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getMobile(), PartyEntity_.mobile));
+            }
+            if (criteria.getPartyTypeClassId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getPartyTypeClassId(), PartyEntity_.partyTypeClassId));
+            }
             if (criteria.getDescription() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getDescription(), PartyEntity_.description));
-            }
-            if (criteria.getBranchsId() != null) {
-                specification =
-                    specification.and(
-                        buildSpecification(
-                            criteria.getBranchsId(),
-                            root -> root.join(PartyEntity_.branchs, JoinType.LEFT).get(BranchEntity_.id)
-                        )
-                    );
             }
             if (criteria.getCriticismsId() != null) {
                 specification =
@@ -122,6 +131,150 @@ public class PartyQueryService extends QueryService<PartyEntity> {
                         buildSpecification(
                             criteria.getCriticismsId(),
                             root -> root.join(PartyEntity_.criticisms, JoinType.LEFT).get(CriticismEntity_.id)
+                        )
+                    );
+            }
+            if (criteria.getFilesId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getFilesId(),
+                            root -> root.join(PartyEntity_.files, JoinType.LEFT).get(FileDocumentEntity_.id)
+                        )
+                    );
+            }
+            if (criteria.getMoreInfoId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getMoreInfoId(),
+                            root -> root.join(PartyEntity_.moreInfos, JoinType.LEFT).get(PartyInformationEntity_.id)
+                        )
+                    );
+            }
+            if (criteria.getWritedCommentsId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getWritedCommentsId(),
+                            root -> root.join(PartyEntity_.writedComments, JoinType.LEFT).get(CommentEntity_.id)
+                        )
+                    );
+            }
+            if (criteria.getAudienceCommentsId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getAudienceCommentsId(),
+                            root -> root.join(PartyEntity_.audienceComments, JoinType.LEFT).get(CommentEntity_.id)
+                        )
+                    );
+            }
+            if (criteria.getFoodTypesId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getFoodTypesId(),
+                            root -> root.join(PartyEntity_.foodTypes, JoinType.LEFT).get(FoodTypeEntity_.id)
+                        )
+                    );
+            }
+            if (criteria.getChildrenId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getChildrenId(),
+                            root -> root.join(PartyEntity_.children, JoinType.LEFT).get(PartyEntity_.id)
+                        )
+                    );
+            }
+            if (criteria.getContactsId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getContactsId(),
+                            root -> root.join(PartyEntity_.contacts, JoinType.LEFT).get(ContactEntity_.id)
+                        )
+                    );
+            }
+            if (criteria.getAddressesId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getAddressesId(),
+                            root -> root.join(PartyEntity_.addresses, JoinType.LEFT).get(AddressEntity_.id)
+                        )
+                    );
+            }
+            if (criteria.getMenuItemsId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getMenuItemsId(),
+                            root -> root.join(PartyEntity_.menuItems, JoinType.LEFT).get(MenuItemEntity_.id)
+                        )
+                    );
+            }
+            if (criteria.getProduceFoodsId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getProduceFoodsId(),
+                            root -> root.join(PartyEntity_.produceFoods, JoinType.LEFT).get(FoodEntity_.id)
+                        )
+                    );
+            }
+            if (criteria.getDesignedFoodsId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getDesignedFoodsId(),
+                            root -> root.join(PartyEntity_.designedFoods, JoinType.LEFT).get(FoodEntity_.id)
+                        )
+                    );
+            }
+            if (criteria.getBuyerFactorsId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getBuyerFactorsId(),
+                            root -> root.join(PartyEntity_.buyerFactors, JoinType.LEFT).get(FactorEntity_.id)
+                        )
+                    );
+            }
+            if (criteria.getSellerFactorsId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getSellerFactorsId(),
+                            root -> root.join(PartyEntity_.sellerFactors, JoinType.LEFT).get(FactorEntity_.id)
+                        )
+                    );
+            }
+            if (criteria.getParentId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getParentId(),
+                            root -> root.join(PartyEntity_.parent, JoinType.LEFT).get(PartyEntity_.id)
+                        )
+                    );
+            }
+            if (criteria.getPartnerId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getPartnerId(),
+                            root -> root.join(PartyEntity_.partner, JoinType.LEFT).get(PartnerEntity_.id)
+                        )
+                    );
+            }
+            if (criteria.getPersonId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getPersonId(),
+                            root -> root.join(PartyEntity_.person, JoinType.LEFT).get(PersonEntity_.id)
                         )
                     );
             }

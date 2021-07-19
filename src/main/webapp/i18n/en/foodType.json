@@ -1,0 +1,28 @@
+{
+  "bombApp": {
+    "foodType": {
+      "home": {
+        "title": "Food Types",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Food Type",
+        "createOrEditLabel": "Create or edit a Food Type",
+        "notFound": "No Food Types found"
+      },
+      "created": "A new Food Type is created with identifier {{ param }}",
+      "updated": "A Food Type is updated with identifier {{ param }}",
+      "deleted": "A Food Type is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Food Type {{ id }}?"
+      },
+      "detail": {
+        "title": "Food Type"
+      },
+      "id": "ID",
+      "title": "Title",
+      "typeCode": "Type Code",
+      "description": "Description",
+      "foods": "Foods",
+      "party": "Party"
+    }
+  }
+}

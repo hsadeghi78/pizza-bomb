@@ -1,0 +1,117 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-party-information-heading"
+        data-cy="PartyInformationCreateUpdateHeading"
+        jhiTranslate="bombApp.partyInformation.home.createOrEditLabel"
+      >
+        Create or edit a Party Information
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.partyInformation.infoType" for="field_infoType">Info Type</label>
+          <select class="form-control" name="infoType" formControlName="infoType" id="field_infoType" data-cy="infoType">
+            <option [ngValue]="null">{{ 'bombApp.PartyInfoType.null' | translate }}</option>
+            <option value="WORK_TIME">{{ 'bombApp.PartyInfoType.WORK_TIME' | translate }}</option>
+            <option value="PRIVATE">{{ 'bombApp.PartyInfoType.PRIVATE' | translate }}</option>
+            <option value="PUBLIC">{{ 'bombApp.PartyInfoType.PUBLIC' | translate }}</option>
+            <option value="WORKSPACE">{{ 'bombApp.PartyInfoType.WORKSPACE' | translate }}</option>
+            <option value="TRANSFER">{{ 'bombApp.PartyInfoType.TRANSFER' | translate }}</option>
+            <option value="TAX">{{ 'bombApp.PartyInfoType.TAX' | translate }}</option>
+            <option value="DISCOUNT">{{ 'bombApp.PartyInfoType.DISCOUNT' | translate }}</option>
+            <option value="OTHER">{{ 'bombApp.PartyInfoType.OTHER' | translate }}</option>
+          </select>
+          <div *ngIf="editForm.get('infoType')!.invalid && (editForm.get('infoType')!.dirty || editForm.get('infoType')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('infoType')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.partyInformation.infoTitle" for="field_infoTitle">Info Title</label>
+          <input type="text" class="form-control" name="infoTitle" id="field_infoTitle" data-cy="infoTitle" formControlName="infoTitle" />
+          <div *ngIf="editForm.get('infoTitle')!.invalid && (editForm.get('infoTitle')!.dirty || editForm.get('infoTitle')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('infoTitle')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('infoTitle')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 200 }"
+            >
+              This field cannot be longer than 200 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.partyInformation.infoDesc" for="field_infoDesc">Info Desc</label>
+          <input type="text" class="form-control" name="infoDesc" id="field_infoDesc" data-cy="infoDesc" formControlName="infoDesc" />
+          <div *ngIf="editForm.get('infoDesc')!.invalid && (editForm.get('infoDesc')!.dirty || editForm.get('infoDesc')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('infoDesc')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 2000 }"
+            >
+              This field cannot be longer than 2000 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.partyInformation.party" for="field_party">Party</label>
+          <select class="form-control" id="field_party" data-cy="party" name="party" formControlName="party">
+            <option *ngIf="!editForm.get('party')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="partyOption.id === editForm.get('party')!.value?.id ? editForm.get('party')!.value : partyOption"
+              *ngFor="let partyOption of partiesSharedCollection; trackBy: trackPartyById"
+            >
+              {{ partyOption.id }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['party'])!.invalid && (editForm.get(['party'])!.dirty || editForm.get(['party'])!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get(['party'])?.errors?.required" jhiTranslate="entity.validation.required">
+            This field is required.
+          </small>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -9,7 +9,6 @@ import { ICriticism, Criticism } from '../criticism.model';
 import { CriticismService } from '../service/criticism.service';
 import { IParty } from 'app/entities/party/party.model';
 import { PartyService } from 'app/entities/party/service/party.service';
-import { AlertService } from 'app/core/util/alert.service';
 
 @Component({
   selector: 'jhi-criticism-update',
@@ -33,8 +32,7 @@ export class CriticismUpdateComponent implements OnInit {
     protected criticismService: CriticismService,
     protected partyService: PartyService,
     protected activatedRoute: ActivatedRoute,
-    protected fb: FormBuilder,
-    protected alertService: AlertService
+    protected fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -71,8 +69,7 @@ export class CriticismUpdateComponent implements OnInit {
   }
 
   protected onSaveSuccess(): void {
-    this.alertService.addAlert({ type: 'success', toast: false, message: 'اطلاعات شما با موفقیت ذخیره شد' });
-    // this.previousState();
+    this.previousState();
   }
 
   protected onSaveError(): void {

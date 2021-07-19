@@ -34,6 +34,7 @@
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
           <th scope="col" jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="title"><span jhiTranslate="bombApp.party.title">Title</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="photo"><span jhiTranslate="bombApp.party.photo">Photo</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col" jhiSortBy="partyCode">
             <span jhiTranslate="bombApp.party.partyCode">Party Code</span> <fa-icon icon="sort"></fa-icon>
           </th>
@@ -49,9 +50,24 @@
           <th scope="col" jhiSortBy="activationStatus">
             <span jhiTranslate="bombApp.party.activationStatus">Activation Status</span> <fa-icon icon="sort"></fa-icon>
           </th>
+          <th scope="col" jhiSortBy="lat"><span jhiTranslate="bombApp.party.lat">Lat</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="lon"><span jhiTranslate="bombApp.party.lon">Lon</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="address"><span jhiTranslate="bombApp.party.address">Address</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="postalCode">
+            <span jhiTranslate="bombApp.party.postalCode">Postal Code</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="mobile"><span jhiTranslate="bombApp.party.mobile">Mobile</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="partyTypeClassId">
+            <span jhiTranslate="bombApp.party.partyTypeClassId">Party Type Class Id</span> <fa-icon icon="sort"></fa-icon>
+          </th>
           <th scope="col" jhiSortBy="description">
             <span jhiTranslate="bombApp.party.description">Description</span> <fa-icon icon="sort"></fa-icon>
           </th>
+          <th scope="col" jhiSortBy="parent.id"><span jhiTranslate="bombApp.party.parent">Parent</span> <fa-icon icon="sort"></fa-icon></th>
+          <th scope="col" jhiSortBy="partner.id">
+            <span jhiTranslate="bombApp.party.partner">Partner</span> <fa-icon icon="sort"></fa-icon>
+          </th>
+          <th scope="col" jhiSortBy="person.id"><span jhiTranslate="bombApp.party.person">Person</span> <fa-icon icon="sort"></fa-icon></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -61,12 +77,39 @@
             <a [routerLink]="['/party', party.id, 'view']">{{ party.id }}</a>
           </td>
           <td>{{ party.title }}</td>
+          <td>
+            <a *ngIf="party.photo" (click)="openFile(party.photo, party.photoContentType)">
+              <img [src]="'data:' + party.photoContentType + ';base64,' + party.photo" style="max-height: 30px" alt="party image" />
+            </a>
+            <span *ngIf="party.photo">{{ party.photoContentType }}, {{ byteSize(party.photo) }}</span>
+          </td>
           <td>{{ party.partyCode }}</td>
           <td>{{ party.tradeTitle }}</td>
           <td>{{ party.activationDate | formatMediumDate }}</td>
           <td>{{ party.expirationDate | formatMediumDate }}</td>
           <td>{{ party.activationStatus }}</td>
+          <td>{{ party.lat }}</td>
+          <td>{{ party.lon }}</td>
+          <td>{{ party.address }}</td>
+          <td>{{ party.postalCode }}</td>
+          <td>{{ party.mobile }}</td>
+          <td>{{ party.partyTypeClassId }}</td>
           <td>{{ party.description }}</td>
+          <td>
+            <div *ngIf="party.parent">
+              <a [routerLink]="['/party', party.parent?.id, 'view']">{{ party.parent?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="party.partner">
+              <a [routerLink]="['/partner', party.partner?.id, 'view']">{{ party.partner?.id }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="party.person">
+              <a [routerLink]="['/person', party.person?.id, 'view']">{{ party.person?.id }}</a>
+            </div>
+          </td>
           <td class="text-right">
             <div class="btn-group">
               <button type="submit" [routerLink]="['/party', party.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">

@@ -14,7 +14,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 @Entity
 @Table(name = "branch")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class BranchEntity extends AbstractAuditingEntity implements Serializable {
+public class BranchEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -68,7 +68,28 @@ public class BranchEntity extends AbstractAuditingEntity implements Serializable
 
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "branchs", "criticisms" }, allowSetters = true)
+    @JsonIgnoreProperties(
+        value = {
+            "criticisms",
+            "files",
+            "moreInfos",
+            "writedComments",
+            "audienceComments",
+            "foodTypes",
+            "children",
+            "contacts",
+            "addresses",
+            "menuItems",
+            "produceFoods",
+            "designedFoods",
+            "buyerFactors",
+            "sellerFactors",
+            "parent",
+            "partner",
+            "person",
+        },
+        allowSetters = true
+    )
     private PartyEntity party;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

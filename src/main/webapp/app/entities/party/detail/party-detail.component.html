@@ -18,6 +18,15 @@
         <dd>
           <span>{{ party.title }}</span>
         </dd>
+        <dt><span jhiTranslate="bombApp.party.photo">Photo</span></dt>
+        <dd>
+          <div *ngIf="party.photo">
+            <a (click)="openFile(party.photo, party.photoContentType)">
+              <img [src]="'data:' + party.photoContentType + ';base64,' + party.photo" style="max-width: 100%" alt="party image" />
+            </a>
+            {{ party.photoContentType }}, {{ byteSize(party.photo) }}
+          </div>
+        </dd>
         <dt><span jhiTranslate="bombApp.party.partyCode">Party Code</span></dt>
         <dd>
           <span>{{ party.partyCode }}</span>
@@ -38,9 +47,55 @@
         <dd>
           <span>{{ party.activationStatus }}</span>
         </dd>
+        <dt><span jhiTranslate="bombApp.party.lat">Lat</span></dt>
+        <dd>
+          <span>{{ party.lat }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.party.lon">Lon</span></dt>
+        <dd>
+          <span>{{ party.lon }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.party.address">Address</span></dt>
+        <dd>
+          <span>{{ party.address }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.party.postalCode">Postal Code</span></dt>
+        <dd>
+          <span>{{ party.postalCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.party.mobile">Mobile</span></dt>
+        <dd>
+          <span>{{ party.mobile }}</span>
+        </dd>
+        <dt>
+          <span jhiTranslate="bombApp.party.partyTypeClassId" [ngbTooltip]="'bombApp.party.help.partyTypeClassId' | translate"
+            >Party Type Class Id</span
+          >
+        </dt>
+        <dd>
+          <span>{{ party.partyTypeClassId }}</span>
+        </dd>
         <dt><span jhiTranslate="bombApp.party.description">Description</span></dt>
         <dd>
           <span>{{ party.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.party.parent">Parent</span></dt>
+        <dd>
+          <div *ngIf="party.parent">
+            <a [routerLink]="['/party', party.parent?.id, 'view']">{{ party.parent?.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="bombApp.party.partner">Partner</span></dt>
+        <dd>
+          <div *ngIf="party.partner">
+            <a [routerLink]="['/partner', party.partner?.id, 'view']">{{ party.partner?.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="bombApp.party.person">Person</span></dt>
+        <dd>
+          <div *ngIf="party.person">
+            <a [routerLink]="['/person', party.person?.id, 'view']">{{ party.person?.id }}</a>
+          </div>
         </dd>
       </dl>
 

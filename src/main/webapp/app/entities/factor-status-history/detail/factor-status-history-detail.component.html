@@ -1,0 +1,38 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="factorStatusHistory">
+      <h2 data-cy="factorStatusHistoryDetailsHeading">
+        <span jhiTranslate="bombApp.factorStatusHistory.detail.title">Factor Status History</span>
+      </h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ factorStatusHistory.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.factorStatusHistory.factorId">Factor Id</span></dt>
+        <dd>
+          <span>{{ factorStatusHistory.factorId }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.factorStatusHistory.status">Status</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'bombApp.FactorStatus.' + factorStatusHistory.status }}">{{ factorStatusHistory.status }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/factor-status-history', factorStatusHistory.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="person">
+      <h2 data-cy="personDetailsHeading"><span jhiTranslate="bombApp.person.detail.title">Person</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ person.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.person.fisrtName">Fisrt Name</span></dt>
+        <dd>
+          <span>{{ person.fisrtName }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.person.lastName">Last Name</span></dt>
+        <dd>
+          <span>{{ person.lastName }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.person.birthDate">Birth Date</span></dt>
+        <dd>
+          <span>{{ person.birthDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.person.nationalCode">National Code</span></dt>
+        <dd>
+          <span>{{ person.nationalCode }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/person', person.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

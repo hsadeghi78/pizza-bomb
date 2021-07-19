@@ -1,0 +1,102 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="factor">
+      <h2 data-cy="factorDetailsHeading"><span jhiTranslate="bombApp.factor.detail.title">Factor</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ factor.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.factor.title">Title</span></dt>
+        <dd>
+          <span>{{ factor.title }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.factor.factorCode">Factor Code</span></dt>
+        <dd>
+          <span>{{ factor.factorCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.factor.lastStatus">Last Status</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'bombApp.FactorStatus.' + factor.lastStatus }}">{{ factor.lastStatus }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.factor.orderWay">Order Way</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'bombApp.FactorOrderWay.' + factor.orderWay }}">{{ factor.orderWay }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.factor.serving">Serving</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'bombApp.FactorServing.' + factor.serving }}">{{ factor.serving }}</span>
+        </dd>
+        <dt>
+          <span jhiTranslate="bombApp.factor.paymentStateClassId" [ngbTooltip]="'bombApp.factor.help.paymentStateClassId' | translate"
+            >Payment State Class Id</span
+          >
+        </dt>
+        <dd>
+          <span>{{ factor.paymentStateClassId }}</span>
+        </dd>
+        <dt>
+          <span jhiTranslate="bombApp.factor.categoryClassId" [ngbTooltip]="'bombApp.factor.help.categoryClassId' | translate"
+            >Category Class Id</span
+          >
+        </dt>
+        <dd>
+          <span>{{ factor.categoryClassId }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.factor.totalPrice">Total Price</span></dt>
+        <dd>
+          <span>{{ factor.totalPrice }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.factor.discount">Discount</span></dt>
+        <dd>
+          <span>{{ factor.discount }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.factor.tax">Tax</span></dt>
+        <dd>
+          <span>{{ factor.tax }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.factor.netprice">Netprice</span></dt>
+        <dd>
+          <span>{{ factor.netprice }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.factor.description">Description</span></dt>
+        <dd>
+          <span>{{ factor.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.factor.buyerParty">Buyer Party</span></dt>
+        <dd>
+          <div *ngIf="factor.buyerParty">
+            <a [routerLink]="['/party', factor.buyerParty?.id, 'view']">{{ factor.buyerParty?.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="bombApp.factor.sellerParty">Seller Party</span></dt>
+        <dd>
+          <div *ngIf="factor.sellerParty">
+            <a [routerLink]="['/party', factor.sellerParty?.id, 'view']">{{ factor.sellerParty?.id }}</a>
+          </div>
+        </dd>
+        <dt><span jhiTranslate="bombApp.factor.deliveryAddress">Delivery Address</span></dt>
+        <dd>
+          <div *ngIf="factor.deliveryAddress">
+            <a [routerLink]="['/address', factor.deliveryAddress?.id, 'view']">{{ factor.deliveryAddress?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/factor', factor.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

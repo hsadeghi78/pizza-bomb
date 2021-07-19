@@ -1,0 +1,80 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-factor-status-history-heading"
+        data-cy="FactorStatusHistoryCreateUpdateHeading"
+        jhiTranslate="bombApp.factorStatusHistory.home.createOrEditLabel"
+      >
+        Create or edit a Factor Status History
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.factorStatusHistory.factorId" for="field_factorId">Factor Id</label>
+          <input type="number" class="form-control" name="factorId" id="field_factorId" data-cy="factorId" formControlName="factorId" />
+          <div *ngIf="editForm.get('factorId')!.invalid && (editForm.get('factorId')!.dirty || editForm.get('factorId')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('factorId')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('factorId')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.factorStatusHistory.status" for="field_status">Status</label>
+          <select class="form-control" name="status" formControlName="status" id="field_status" data-cy="status">
+            <option [ngValue]="null">{{ 'bombApp.FactorStatus.null' | translate }}</option>
+            <option value="INITIATE">{{ 'bombApp.FactorStatus.INITIATE' | translate }}</option>
+            <option value="PRINTED">{{ 'bombApp.FactorStatus.PRINTED' | translate }}</option>
+            <option value="FINAL">{{ 'bombApp.FactorStatus.FINAL' | translate }}</option>
+            <option value="KITCHEN">{{ 'bombApp.FactorStatus.KITCHEN' | translate }}</option>
+            <option value="READY">{{ 'bombApp.FactorStatus.READY' | translate }}</option>
+            <option value="DELIVERY_SUCCESS">{{ 'bombApp.FactorStatus.DELIVERY_SUCCESS' | translate }}</option>
+            <option value="DELIVERY_FAIL">{{ 'bombApp.FactorStatus.DELIVERY_FAIL' | translate }}</option>
+            <option value="CANCEL">{{ 'bombApp.FactorStatus.CANCEL' | translate }}</option>
+            <option value="DELETED">{{ 'bombApp.FactorStatus.DELETED' | translate }}</option>
+          </select>
+          <div *ngIf="editForm.get('status')!.invalid && (editForm.get('status')!.dirty || editForm.get('status')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('status')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

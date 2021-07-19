@@ -1,0 +1,11 @@
+id;title;factor_code;last_status;order_way;serving;payment_state_class_id;category_class_id;total_price;discount;tax;netprice;description;buyer_party_id;seller_party_id
+1;سلامتی application تجاری;protocol;DELIVERY_SUCCESS;PHONE_CALL;OUTSIDE;57851;4927;22321;29189;81980;41880;زنجان Cambridgeshire توپ;1;1
+2;رهنمود تجاری;haptic روپی generating;KITCHEN;PHONE_CALL;INSIDE;88396;74539;31393;83313;69140;94442;بچه بدون راننده;2;2
+3;یافته;Borders;CANCEL;IN_PERSON;OUTSIDE;15389;22757;3008;9350;53895;59723;خرمایی خارق انسان;3;3
+4;اختصاصی قدس;سلامتی یک;INITIATE;IN_PERSON;INSIDE;15344;32543;44226;5558;22255;84935;ارغوانی;4;4
+5;Bedfordshire;زیور اصطکاک ثابت;READY;IN_PERSON;INSIDE;70798;74980;49903;78210;41769;94675;RAM کلاه;5;5
+6;cross-platform;پرداخت دست;PRINTED;PHONE_CALL;OUTSIDE;71131;6929;73223;87277;25792;8402;چیپس;6;6
+7;سرپرست نپال;رئیس وام رایانه;READY;PHONE_CALL;OUTSIDE;25245;31771;10103;87771;92790;86571;صورتحساب پلاستیکی صورتحساب;7;7
+8;کار صورتحساب;Cambridgeshire مستقیم معمولی;DELIVERY_SUCCESS;IN_PERSON;INSIDE;43407;92265;26941;17564;87447;93726;AI;8;8
+9;مرغ redundant;استیل حساب گرنزی;FINAL;IN_PERSON;OUTSIDE;44906;96322;92017;11864;20715;47604;به پوند;9;9
+10;محتوا primary;پیاده درز ها;INITIATE;PHONE_CALL;OUTSIDE;99823;58413;80243;16820;25050;93428;روسیه;10;10

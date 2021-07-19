@@ -1,0 +1,43 @@
+{
+  "bombApp": {
+    "factor": {
+      "home": {
+        "title": "Factors",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Create a new Factor",
+        "createOrEditLabel": "Create or edit a Factor",
+        "notFound": "No Factors found"
+      },
+      "created": "A new Factor is created with identifier {{ param }}",
+      "updated": "A Factor is updated with identifier {{ param }}",
+      "deleted": "A Factor is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Factor {{ id }}?"
+      },
+      "detail": {
+        "title": "Factor"
+      },
+      "id": "ID",
+      "title": "Title",
+      "factorCode": "Factor Code",
+      "lastStatus": "Last Status",
+      "orderWay": "Order Way",
+      "serving": "Serving",
+      "paymentStateClassId": "Payment State Class Id",
+      "categoryClassId": "Category Class Id",
+      "totalPrice": "Total Price",
+      "discount": "Discount",
+      "tax": "Tax",
+      "netprice": "Netprice",
+      "description": "Description",
+      "factorItems": "Factor Items",
+      "buyerParty": "Buyer Party",
+      "sellerParty": "Seller Party",
+      "deliveryAddress": "Delivery Address",
+      "help": {
+        "paymentStateClassId": "for FREE, UNPAID, PREPAID_PARTIAL, PREPAID_COMPLETE, POSTPAID, SETTELMENT",
+        "categoryClassId": "for *"
+      }
+    }
+  }
+}

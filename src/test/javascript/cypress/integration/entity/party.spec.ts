@@ -90,6 +90,8 @@ describe('Party e2e test', () => {
       .invoke('val')
       .should('match', new RegExp('عملکرد خدمات آفریقا'));
 
+    cy.setFieldImageAsBytesOfEntity('photo', 'integration-test.png', 'image/png');
+
     cy.get(`[data-cy="partyCode"]`).type('ابزار', { force: true }).invoke('val').should('match', new RegExp('ابزار'));
 
     cy.get(`[data-cy="tradeTitle"]`).type('کسب', { force: true }).invoke('val').should('match', new RegExp('کسب'));
@@ -101,10 +103,25 @@ describe('Party e2e test', () => {
     cy.get(`[data-cy="activationStatus"]`).should('not.be.checked');
     cy.get(`[data-cy="activationStatus"]`).click().should('be.checked');
 
-    cy.get(`[data-cy="description"]`)
-      .type('کردستان کرون نکردنی', { force: true })
-      .invoke('val')
-      .should('match', new RegExp('کردستان کرون نکردنی'));
+    cy.get(`[data-cy="lat"]`).type('97969').should('have.value', '97969');
+
+    cy.get(`[data-cy="lon"]`).type('56423').should('have.value', '56423');
+
+    cy.get(`[data-cy="address"]`).type('معمولی پویا', { force: true }).invoke('val').should('match', new RegExp('معمولی پویا'));
+
+    cy.get(`[data-cy="postalCode"]`).type('کارپرداز dig', { force: true }).invoke('val').should('match', new RegExp('کارپرداز dig'));
+
+    cy.get(`[data-cy="mobile"]`).type('سپرده bus امیرک', { force: true }).invoke('val').should('match', new RegExp('سپرده bus امیرک'));
+
+    cy.get(`[data-cy="partyTypeClassId"]`).type('47109').should('have.value', '47109');
+
+    cy.get(`[data-cy="description"]`).type('نیلی capacitor', { force: true }).invoke('val').should('match', new RegExp('نیلی capacitor'));
+
+    cy.setFieldSelectToLastOfEntity('parent');
+
+    cy.setFieldSelectToLastOfEntity('partner');
+
+    cy.setFieldSelectToLastOfEntity('person');
 
     cy.get(entityCreateSaveButtonSelector).click({ force: true });
     cy.scrollTo('top', { ensureScrollable: false });

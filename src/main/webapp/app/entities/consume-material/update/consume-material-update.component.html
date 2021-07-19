@@ -1,0 +1,141 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2
+        id="jhi-consume-material-heading"
+        data-cy="ConsumeMaterialCreateUpdateHeading"
+        jhiTranslate="bombApp.consumeMaterial.home.createOrEditLabel"
+      >
+        Create or edit a Consume Material
+      </h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group" [hidden]="editForm.get('id')!.value == null">
+          <label class="form-control-label" jhiTranslate="global.field.id" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.consumeMaterial.title" for="field_title">Title</label>
+          <input type="text" class="form-control" name="title" id="field_title" data-cy="title" formControlName="title" />
+          <div *ngIf="editForm.get('title')!.invalid && (editForm.get('title')!.dirty || editForm.get('title')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('title')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('title')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 200 }"
+            >
+              This field cannot be longer than 200 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.consumeMaterial.type" for="field_type">Type</label>
+          <input type="text" class="form-control" name="type" id="field_type" data-cy="type" formControlName="type" />
+          <div *ngIf="editForm.get('type')!.invalid && (editForm.get('type')!.dirty || editForm.get('type')!.touched)">
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('type')?.errors?.maxlength"
+              jhiTranslate="entity.validation.maxlength"
+              [translateValues]="{ max: 100 }"
+            >
+              This field cannot be longer than 100 characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.consumeMaterial.amount" for="field_amount">Amount</label>
+          <input type="number" class="form-control" name="amount" id="field_amount" data-cy="amount" formControlName="amount" />
+          <div *ngIf="editForm.get('amount')!.invalid && (editForm.get('amount')!.dirty || editForm.get('amount')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('amount')?.errors?.required" jhiTranslate="entity.validation.required">
+              This field is required.
+            </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('amount')?.errors?.number" jhiTranslate="entity.validation.number">
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label
+            class="form-control-label"
+            jhiTranslate="bombApp.consumeMaterial.amountUnitClassId"
+            for="field_amountUnitClassId"
+            [ngbTooltip]="'bombApp.consumeMaterial.help.amountUnitClassId' | translate"
+            >Amount Unit Class Id</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            name="amountUnitClassId"
+            id="field_amountUnitClassId"
+            data-cy="amountUnitClassId"
+            formControlName="amountUnitClassId"
+          />
+          <div
+            *ngIf="
+              editForm.get('amountUnitClassId')!.invalid &&
+              (editForm.get('amountUnitClassId')!.dirty || editForm.get('amountUnitClassId')!.touched)
+            "
+          >
+            <small
+              class="form-text text-danger"
+              *ngIf="editForm.get('amountUnitClassId')?.errors?.required"
+              jhiTranslate="entity.validation.required"
+            >
+              This field is required.
+            </small>
+            <small
+              class="form-text text-danger"
+              [hidden]="!editForm.get('amountUnitClassId')?.errors?.number"
+              jhiTranslate="entity.validation.number"
+            >
+              This field should be a number.
+            </small>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label" jhiTranslate="bombApp.consumeMaterial.food" for="field_food">Food</label>
+          <select class="form-control" id="field_food" data-cy="food" name="food" formControlName="food">
+            <option *ngIf="!editForm.get('food')!.value" [ngValue]="null" selected></option>
+            <option
+              [ngValue]="foodOption.id === editForm.get('food')!.value?.id ? editForm.get('food')!.value : foodOption"
+              *ngFor="let foodOption of foodsSharedCollection; trackBy: trackFoodById"
+            >
+              {{ foodOption.id }}
+            </option>
+          </select>
+        </div>
+        <div *ngIf="editForm.get(['food'])!.invalid && (editForm.get(['food'])!.dirty || editForm.get(['food'])!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get(['food'])?.errors?.required" jhiTranslate="entity.validation.required">
+            This field is required.
+          </small>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

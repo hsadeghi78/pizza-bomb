@@ -19,14 +19,39 @@
       },
       "id": "ID",
       "title": "Title",
+      "photo": "Photo",
       "partyCode": "Party Code",
       "tradeTitle": "Trade Title",
       "activationDate": "Activation Date",
       "expirationDate": "Expiration Date",
       "activationStatus": "Activation Status",
+      "lat": "Lat",
+      "lon": "Lon",
+      "address": "Address",
+      "postalCode": "Postal Code",
+      "mobile": "Mobile",
+      "partyTypeClassId": "Party Type Class Id",
       "description": "Description",
-      "branchs": "Branchs",
-      "criticisms": "Criticisms"
+      "criticisms": "Criticisms",
+      "files": "Files",
+      "moreInfo": "More Info",
+      "writedComments": "Writed Comments",
+      "audienceComments": "Audience Comments",
+      "foodTypes": "Food Types",
+      "children": "Children",
+      "contacts": "Contacts",
+      "addresses": "Addresses",
+      "menuItems": "Menu Items",
+      "produceFoods": "Produce Foods",
+      "designedFoods": "Designed Foods",
+      "buyerFactors": "Buyer Factors",
+      "sellerFactors": "Seller Factors",
+      "parent": "Parent",
+      "partner": "Partner",
+      "person": "Person",
+      "help": {
+        "partyTypeClassId": "for flatOgranization, Horizontal Organization, Legal person, Individual Person"
+      }
     }
   }
 }

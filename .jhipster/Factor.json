@@ -1,0 +1,109 @@
+{
+  "name": "Factor",
+  "fields": [
+    {
+      "fieldName": "title",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "200"
+    },
+    {
+      "fieldName": "factorCode",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength", "unique"],
+      "fieldValidateRulesMaxlength": "100"
+    },
+    {
+      "fieldName": "lastStatus",
+      "fieldType": "FactorStatus",
+      "fieldValues": "INITIATE,PRINTED,FINAL,KITCHEN,READY,DELIVERY_SUCCESS,DELIVERY_FAIL,CANCEL,DELETED",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "orderWay",
+      "fieldType": "FactorOrderWay",
+      "fieldValues": "PHONE_CALL,IN_PERSON",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "serving",
+      "fieldType": "FactorServing",
+      "fieldValues": "INSIDE,OUTSIDE",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "paymentStateClassId",
+      "fieldType": "Long",
+      "javadoc": "for FREE, UNPAID, PREPAID_PARTIAL, PREPAID_COMPLETE, POSTPAID, SETTELMENT",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "categoryClassId",
+      "fieldType": "Long",
+      "javadoc": "for *"
+    },
+    {
+      "fieldName": "totalPrice",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "discount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "tax",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "netprice",
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "1000"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "factorItem",
+      "otherEntityRelationshipName": "factor",
+      "relationshipName": "factorItems"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "party",
+      "otherEntityRelationshipName": "buyerFactors",
+      "relationshipValidateRules": "required",
+      "relationshipName": "buyerParty"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "party",
+      "otherEntityRelationshipName": "sellerFactors",
+      "relationshipValidateRules": "required",
+      "relationshipName": "sellerParty"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "address",
+      "otherEntityRelationshipName": "factors",
+      "relationshipName": "deliveryAddress"
+    }
+  ],
+  "javadoc": "4 field fixed",
+  "entityTableName": "factor",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210718092810"
+}

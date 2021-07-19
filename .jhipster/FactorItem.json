@@ -1,0 +1,62 @@
+{
+  "name": "FactorItem",
+  "fields": [
+    {
+      "fieldName": "rowNum",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "title",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "200"
+    },
+    {
+      "fieldName": "count",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "discount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "tax",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String",
+      "fieldValidateRules": ["maxlength"],
+      "fieldValidateRulesMaxlength": "300"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "food",
+      "otherEntityRelationshipName": "factorItems",
+      "relationshipValidateRules": "required",
+      "relationshipName": "food"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "factor",
+      "otherEntityRelationshipName": "factorItems",
+      "relationshipValidateRules": "required",
+      "relationshipName": "factor"
+    }
+  ],
+  "javadoc": "4 field fixed",
+  "entityTableName": "factor_item",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210718092811"
+}

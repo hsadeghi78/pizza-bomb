@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="partyInformation">
+      <h2 data-cy="partyInformationDetailsHeading"><span jhiTranslate="bombApp.partyInformation.detail.title">Party Information</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ partyInformation.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.partyInformation.infoType">Info Type</span></dt>
+        <dd>
+          <span jhiTranslate="{{ 'bombApp.PartyInfoType.' + partyInformation.infoType }}">{{ partyInformation.infoType }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.partyInformation.infoTitle">Info Title</span></dt>
+        <dd>
+          <span>{{ partyInformation.infoTitle }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.partyInformation.infoDesc">Info Desc</span></dt>
+        <dd>
+          <span>{{ partyInformation.infoDesc }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.partyInformation.party">Party</span></dt>
+        <dd>
+          <div *ngIf="partyInformation.party">
+            <a [routerLink]="['/party', partyInformation.party?.id, 'view']">{{ partyInformation.party?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/party-information', partyInformation.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

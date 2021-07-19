@@ -1,0 +1,9 @@
+{
+  "bombApp": {
+    "FactorServing": {
+      "null": "",
+      "INSIDE": "INSIDE",
+      "OUTSIDE": "OUTSIDE"
+    }
+  }
+}

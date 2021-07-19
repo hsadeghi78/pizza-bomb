@@ -42,10 +42,10 @@ describe('Component Tests', () => {
     describe('ngOnInit', () => {
       it('Should call Party query and add missing value', () => {
         const criticism: ICriticism = { id: 456 };
-        const party: IParty = { id: 94749 };
+        const party: IParty = { id: 95173 };
         criticism.party = party;
 
-        const partyCollection: IParty[] = [{ id: 21639 }];
+        const partyCollection: IParty[] = [{ id: 48212 }];
         spyOn(partyService, 'query').and.returnValue(of(new HttpResponse({ body: partyCollection })));
         const additionalParties = [party];
         const expectedCollection: IParty[] = [...additionalParties, ...partyCollection];
@@ -61,7 +61,7 @@ describe('Component Tests', () => {
 
       it('Should update editForm', () => {
         const criticism: ICriticism = { id: 456 };
-        const party: IParty = { id: 78977 };
+        const party: IParty = { id: 20357 };
         criticism.party = party;
 
         activatedRoute.data = of({ criticism });

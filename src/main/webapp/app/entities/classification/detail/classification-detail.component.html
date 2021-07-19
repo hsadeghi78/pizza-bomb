@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+  <div class="col-8">
+    <div *ngIf="classification">
+      <h2 data-cy="classificationDetailsHeading"><span jhiTranslate="bombApp.classification.detail.title">Classification</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="global.field.id">ID</span></dt>
+        <dd>
+          <span>{{ classification.id }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.classification.title">Title</span></dt>
+        <dd>
+          <span>{{ classification.title }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.classification.classCode">Class Code</span></dt>
+        <dd>
+          <span>{{ classification.classCode }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.classification.description">Description</span></dt>
+        <dd>
+          <span>{{ classification.description }}</span>
+        </dd>
+        <dt><span jhiTranslate="bombApp.classification.classType">Class Type</span></dt>
+        <dd>
+          <div *ngIf="classification.classType">
+            <a [routerLink]="['/class-type', classification.classType?.id, 'view']">{{ classification.classType?.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+      </button>
+
+      <button type="button" [routerLink]="['/classification', classification.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+{
+  "name": "Contact",
+  "fields": [
+    {
+      "fieldName": "title",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "200"
+    },
+    {
+      "fieldName": "contactType",
+      "fieldType": "ContactType",
+      "fieldValues": "TELEPHONE,MOBILE,FAX,EMAIL,PAGER",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "contactValue",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "200"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "party",
+      "otherEntityRelationshipName": "contacts",
+      "relationshipValidateRules": "required",
+      "relationshipName": "party"
+    }
+  ],
+  "javadoc": "4 field fixed",
+  "entityTableName": "contact",
+  "dto": "mapstruct",
+  "pagination": "pagination",
+  "service": "serviceImpl",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "applications": "*",
+  "changelogDate": "20210718092801"
+}
