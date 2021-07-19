@@ -109,7 +109,7 @@ public class PartyEntity implements Serializable {
     @OneToMany(mappedBy = "writerParty")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "children", "writerParty", "audienceParty", "parent" }, allowSetters = true)
-    private Set<CommentEntity> writedComments = new HashSet<>();
+    private Set<CommentEntity> writtenComments = new HashSet<>();
 
     @OneToMany(mappedBy = "audienceParty")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -128,7 +128,7 @@ public class PartyEntity implements Serializable {
             "criticisms",
             "files",
             "moreInfos",
-            "writedComments",
+            "writtenComments",
             "audienceComments",
             "foodTypes",
             "children",
@@ -194,7 +194,7 @@ public class PartyEntity implements Serializable {
             "criticisms",
             "files",
             "moreInfos",
-            "writedComments",
+            "writtenComments",
             "audienceComments",
             "foodTypes",
             "children",
@@ -523,35 +523,35 @@ public class PartyEntity implements Serializable {
         this.moreInfos = partyInformations;
     }
 
-    public Set<CommentEntity> getWritedComments() {
-        return this.writedComments;
+    public Set<CommentEntity> getWrittenComments() {
+        return this.writtenComments;
     }
 
-    public PartyEntity writedComments(Set<CommentEntity> comments) {
-        this.setWritedComments(comments);
+    public PartyEntity writtenComments(Set<CommentEntity> comments) {
+        this.setWrittenComments(comments);
         return this;
     }
 
-    public PartyEntity addWritedComments(CommentEntity comment) {
-        this.writedComments.add(comment);
+    public PartyEntity addWrittenComments(CommentEntity comment) {
+        this.writtenComments.add(comment);
         comment.setWriterParty(this);
         return this;
     }
 
-    public PartyEntity removeWritedComments(CommentEntity comment) {
-        this.writedComments.remove(comment);
+    public PartyEntity removeWrittenComments(CommentEntity comment) {
+        this.writtenComments.remove(comment);
         comment.setWriterParty(null);
         return this;
     }
 
-    public void setWritedComments(Set<CommentEntity> comments) {
-        if (this.writedComments != null) {
-            this.writedComments.forEach(i -> i.setWriterParty(null));
+    public void setWrittenComments(Set<CommentEntity> comments) {
+        if (this.writtenComments != null) {
+            this.writtenComments.forEach(i -> i.setWriterParty(null));
         }
         if (comments != null) {
             comments.forEach(i -> i.setWriterParty(this));
         }
-        this.writedComments = comments;
+        this.writtenComments = comments;
     }
 
     public Set<CommentEntity> getAudienceComments() {

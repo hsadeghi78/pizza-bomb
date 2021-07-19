@@ -1675,21 +1675,21 @@ class PartyResourceIT {
 
     @Test
     @Transactional
-    void getAllPartiesByWritedCommentsIsEqualToSomething() throws Exception {
+    void getAllPartiesByWrittenCommentsIsEqualToSomething() throws Exception {
         // Initialize the database
         partyRepository.saveAndFlush(partyEntity);
-        CommentEntity writedComments = CommentResourceIT.createEntity(em);
-        em.persist(writedComments);
+        CommentEntity writtenComments = CommentResourceIT.createEntity(em);
+        em.persist(writtenComments);
         em.flush();
-        partyEntity.addWritedComments(writedComments);
+        partyEntity.addWrittenComments(writtenComments);
         partyRepository.saveAndFlush(partyEntity);
-        Long writedCommentsId = writedComments.getId();
+        Long writtenCommentsId = writtenComments.getId();
 
-        // Get all the partyList where writedComments equals to writedCommentsId
-        defaultPartyShouldBeFound("writedCommentsId.equals=" + writedCommentsId);
+        // Get all the partyList where writtenComments equals to writtenCommentsId
+        defaultPartyShouldBeFound("writtenCommentsId.equals=" + writtenCommentsId);
 
-        // Get all the partyList where writedComments equals to (writedCommentsId + 1)
-        defaultPartyShouldNotBeFound("writedCommentsId.equals=" + (writedCommentsId + 1));
+        // Get all the partyList where writtenComments equals to (writtenCommentsId + 1)
+        defaultPartyShouldNotBeFound("writtenCommentsId.equals=" + (writtenCommentsId + 1));
     }
 
     @Test

@@ -152,12 +152,12 @@ public class PartyQueryService extends QueryService<PartyEntity> {
                         )
                     );
             }
-            if (criteria.getWritedCommentsId() != null) {
+            if (criteria.getWrittenCommentsId() != null) {
                 specification =
                     specification.and(
                         buildSpecification(
-                            criteria.getWritedCommentsId(),
-                            root -> root.join(PartyEntity_.writedComments, JoinType.LEFT).get(CommentEntity_.id)
+                            criteria.getWrittenCommentsId(),
+                            root -> root.join(PartyEntity_.writtenComments, JoinType.LEFT).get(CommentEntity_.id)
                         )
                     );
             }

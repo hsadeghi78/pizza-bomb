@@ -102,7 +102,7 @@
       "relationshipType": "one-to-many",
       "otherEntityName": "comment",
       "otherEntityRelationshipName": "writerParty",
-      "relationshipName": "writedComments"
+      "relationshipName": "writtenComments"
     },
     {
       "relationshipType": "one-to-many",

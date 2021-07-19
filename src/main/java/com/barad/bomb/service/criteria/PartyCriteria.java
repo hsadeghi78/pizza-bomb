@@ -59,7 +59,7 @@ public class PartyCriteria implements Serializable, Criteria {
 
     private LongFilter moreInfoId;
 
-    private LongFilter writedCommentsId;
+    private LongFilter writtenCommentsId;
 
     private LongFilter audienceCommentsId;
 
@@ -107,7 +107,7 @@ public class PartyCriteria implements Serializable, Criteria {
         this.criticismsId = other.criticismsId == null ? null : other.criticismsId.copy();
         this.filesId = other.filesId == null ? null : other.filesId.copy();
         this.moreInfoId = other.moreInfoId == null ? null : other.moreInfoId.copy();
-        this.writedCommentsId = other.writedCommentsId == null ? null : other.writedCommentsId.copy();
+        this.writtenCommentsId = other.writtenCommentsId == null ? null : other.writtenCommentsId.copy();
         this.audienceCommentsId = other.audienceCommentsId == null ? null : other.audienceCommentsId.copy();
         this.foodTypesId = other.foodTypesId == null ? null : other.foodTypesId.copy();
         this.childrenId = other.childrenId == null ? null : other.childrenId.copy();
@@ -383,19 +383,19 @@ public class PartyCriteria implements Serializable, Criteria {
         this.moreInfoId = moreInfoId;
     }
 
-    public LongFilter getWritedCommentsId() {
-        return writedCommentsId;
+    public LongFilter getWrittenCommentsId() {
+        return writtenCommentsId;
     }
 
-    public LongFilter writedCommentsId() {
-        if (writedCommentsId == null) {
-            writedCommentsId = new LongFilter();
+    public LongFilter writtenCommentsId() {
+        if (writtenCommentsId == null) {
+            writtenCommentsId = new LongFilter();
         }
-        return writedCommentsId;
+        return writtenCommentsId;
     }
 
-    public void setWritedCommentsId(LongFilter writedCommentsId) {
-        this.writedCommentsId = writedCommentsId;
+    public void setWrittenCommentsId(LongFilter writtenCommentsId) {
+        this.writtenCommentsId = writtenCommentsId;
     }
 
     public LongFilter getAudienceCommentsId() {
@@ -620,7 +620,7 @@ public class PartyCriteria implements Serializable, Criteria {
             Objects.equals(criticismsId, that.criticismsId) &&
             Objects.equals(filesId, that.filesId) &&
             Objects.equals(moreInfoId, that.moreInfoId) &&
-            Objects.equals(writedCommentsId, that.writedCommentsId) &&
+            Objects.equals(writtenCommentsId, that.writtenCommentsId) &&
             Objects.equals(audienceCommentsId, that.audienceCommentsId) &&
             Objects.equals(foodTypesId, that.foodTypesId) &&
             Objects.equals(childrenId, that.childrenId) &&
@@ -657,7 +657,7 @@ public class PartyCriteria implements Serializable, Criteria {
             criticismsId,
             filesId,
             moreInfoId,
-            writedCommentsId,
+            writtenCommentsId,
             audienceCommentsId,
             foodTypesId,
             childrenId,
@@ -695,7 +695,7 @@ public class PartyCriteria implements Serializable, Criteria {
             (criticismsId != null ? "criticismsId=" + criticismsId + ", " : "") +
             (filesId != null ? "filesId=" + filesId + ", " : "") +
             (moreInfoId != null ? "moreInfoId=" + moreInfoId + ", " : "") +
-            (writedCommentsId != null ? "writedCommentsId=" + writedCommentsId + ", " : "") +
+            (writtenCommentsId != null ? "writtenCommentsId=" + writtenCommentsId + ", " : "") +
             (audienceCommentsId != null ? "audienceCommentsId=" + audienceCommentsId + ", " : "") +
             (foodTypesId != null ? "foodTypesId=" + foodTypesId + ", " : "") +
             (childrenId != null ? "childrenId=" + childrenId + ", " : "") +

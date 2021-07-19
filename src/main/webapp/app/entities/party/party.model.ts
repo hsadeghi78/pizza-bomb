@@ -32,7 +32,7 @@ export interface IParty {
   criticisms?: ICriticism[] | null;
   files?: IFileDocument[] | null;
   moreInfos?: IPartyInformation[] | null;
-  writedComments?: IComment[] | null;
+  writtenComments?: IComment[] | null;
   audienceComments?: IComment[] | null;
   foodTypes?: IFoodType[] | null;
   children?: IParty[] | null;
@@ -69,7 +69,7 @@ export class Party implements IParty {
     public criticisms?: ICriticism[] | null,
     public files?: IFileDocument[] | null,
     public moreInfos?: IPartyInformation[] | null,
-    public writedComments?: IComment[] | null,
+    public writtenComments?: IComment[] | null,
     public audienceComments?: IComment[] | null,
     public foodTypes?: IFoodType[] | null,
     public children?: IParty[] | null,

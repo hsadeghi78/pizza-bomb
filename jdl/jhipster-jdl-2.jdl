@@ -197,7 +197,7 @@ relationship OneToMany {
     Party{criticisms} to Criticism{party},
     Party{files} to FileDocument{party required},
     Party{moreInfo} to PartyInformation{party required},
-    Party{writedComments} to Comment{writerParty required},
+    Party{writtenComments} to Comment{writerParty required},
     Party{audienceComments} to Comment{audienceParty required},
     Comment{children} to Comment{parent},
     Party{foodTypes} to FoodType{party required},

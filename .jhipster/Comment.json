@@ -22,7 +22,7 @@
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "party",
-      "otherEntityRelationshipName": "writedComments",
+      "otherEntityRelationshipName": "writtenComments",
       "relationshipValidateRules": "required",
       "relationshipName": "writerParty"
     },
